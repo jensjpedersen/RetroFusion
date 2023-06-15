@@ -8,22 +8,28 @@ export DISPLAY=:0
 # flatpak install mgba
 # flatpak install citra
 
-hwmodel=$(hostnamectl | awk -F ": " '/Hardware Model:/ {print $2}')
+# hwmodel=$(hostnamectl | awk -F ": " '/Hardware Model:/ {print $2}')
+# if [[ $hwmodel == "ThinkCentre M900" ]]; then
+#     games_dir="/mnt/hdd/ManjaroSSD/Games/"
+# elif [[ $hwmodel == "ThinkPad W530" ]]; then
+#     games_dir="/mnt/ssd/Games/"
+# fi
 
-if [[ $hwmodel == "ThinkCentre M900" ]]; then
-    games_dir="/mnt/hdd/ManjaroSSD/Games/"
-elif [[ $hwmodel == "ThinkPad W530" ]]; then
-    games_dir="/mnt/ssd/Games/"
-fi
-
-console_dir=( $(ls $games_dir) )
 root_dir=$(dirname $(realpath $0))
 
+# source conf: games_dir
+source "$root_dir/game_menu.conf"
+console_dir=( $(ls $games_dir) )
+
+
+function find_thumbnails {
+    echo "hei"
+}
 
 function download_thumbnails { 
 
     if [ ! -d "$root_dir/thumbnails" ]; then
-        mkdir thumbnails
+        mkdir "$root_dir/thumbnails"
     fi
 
 
@@ -40,38 +46,85 @@ function download_thumbnails {
             if [ $d = "gamecube" ]; then
 
                 game_name=$(echo "$file_name" | sed -e 's/\.iso//' -e 's/\.nkit//')
-                img_url="$game_name"".png"
-                url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_GameCube/master/Named_Boxarts/""$img_url"
+                # img_url="$game_name"".png"
+                base_url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_GameCube/master/Named_Boxarts/"
 
             elif [ $d = 'play_station_2' ]; then 
 
                 game_name=$(echo "$file_name" | sed -e 's/\.iso//')
-                img_url="$game_name"".png"
-                url="https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation_2/733507283dd0f52e3b8a47fe0a139be13f82903a/Named_Boxarts/$img_url"
+                # img_url="$game_name"".png"
+                base_url="https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation_2/733507283dd0f52e3b8a47fe0a139be13f82903a/Named_Boxarts/"
 
             elif [ $d = 'nintendo_64' ]; then 
 
                 game_name=$(echo "$file_name" | sed -e 's/\.z64//')
-                img_url="$game_name"".png"
-                url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Nintendo_64/c9278f93bfbcb41e4e728b952b25e6cc2ab6830f/Named_Boxarts/$img_url"
+                # img_url="$game_name"".png"
+                base_url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Nintendo_64/c9278f93bfbcb41e4e728b952b25e6cc2ab6830f/Named_Boxarts/"
 
             elif [ $d = 'nintendo_3ds' ]; then 
 
                 game_name=$(echo "$file_name" | sed -e 's/\.3ds//')
-                img_url="$game_name"".png"
-                url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Nintendo_3DS/15dcea5c55f3ce0bd25a951616a7990a66e25f2d/Named_Boxarts/$img_url"
+                # img_url="$game_name"".png"
+                base_url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Nintendo_3DS/15dcea5c55f3ce0bd25a951616a7990a66e25f2d/Named_Boxarts/"
 
             elif [ $d = 'game_boy_advance' ]; then 
-                game_name=$(echo "$file_name" | sed -e 's/\.3ds//')
-                img_url="$game_name"".png"
-                url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Advance/e0200a10a81e74a565f335b5ef3d9cb7e8e89672/Named_Boxarts/$img_url"
+                game_name=$(echo "$file_name" | sed -e 's/\.gba//' -e 's/\s*\# GBA\.GBA//')
+                # img_url="$game_name"".png"
+                base_url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Advance/e0200a10a81e74a565f335b5ef3d9cb7e8e89672/Named_Boxarts/"
 
             else
                 break 
             fi
 
+            search_game=$(echo "$game_name" | sed -e 's/&/_/' -e 's/(U)//')
+            data_file="$root_dir/data/$d/Named_Boxarts.txt" # File with *.png names
+
+            # get line with min char
+            match=$(grep -e "$search_game" "$data_file") 
+            if [ -n "$match" ]; then 
+
+                # Get line with min char
+                img_url=$(echo "$match" | awk '
+                length==len {line=line ORS $0}
+                NR==1 || length<len {len=length; line=$0}
+                END {print line}')
+
+                img_url=$(echo "$img_url" | sed 's/.*->\s*//')
+
+
+                url="$base_url$img_url"
+
+                # echo "$img_url"
+
+
+                # TODO:
+                # 1. remove "->.*"
+                # 2. Find line with min char
+                # 3. Check if line has -> 
+                # 4. use exp on right side of ->
+            else
+                echo "Can't find $game_name"
+                continue 
+            fi
+
+
             if [ ! -f "thumbnails/$d/$img_url" ]; then 
-                wget -q --directory-prefix "thumbnails/$d" "$url" || echo "download failed: $game_name"
+
+                # wget -q --directory-prefix "thumbnails/$d" "$url" || (echo "download failed: $game_name")
+                if wget -q --directory-prefix "thumbnails/$d" "$url"; then 
+                    continue
+                fi
+
+                echo "Download failed: $img_url"
+
+                # if fail; try download modified name
+                img_url=$(echo "$img_url" | sed -e 's/(.*)//g')
+                img_url=$(echo "$img_url" | sed -e 's/\.png/(USA)\.png/')
+                url="$base_url$img_url"
+                wget -q --directory-prefix "thumbnails/$d" "$url" || (echo "download failed: $img_url. No more retryes")
+
+
+
             fi
 
 
