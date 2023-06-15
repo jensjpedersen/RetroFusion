@@ -107,24 +107,18 @@ function download_thumbnails {
                 continue 
             fi
 
+            # if fail download url; try download url2
+            img_url2=$(echo "$img_url" | sed -e 's/(.*)//g')
+            img_url2=$(echo "$img_url2" | sed -e 's/\.png/(USA)\.png/')
+            url2="$base_url$img_url2"
 
-            if [ ! -f "thumbnails/$d/$img_url" ]; then 
-
-                # wget -q --directory-prefix "thumbnails/$d" "$url" || (echo "download failed: $game_name")
-                if wget -q --directory-prefix "thumbnails/$d" "$url"; then 
-                    continue
-                fi
-
+            if [ ! -f "thumbnails/$d/$img_url" ] && [ ! -f "thumbnails/$d/$img_url2" ] ; then 
+                # download 1. attempt
+                wget -q --directory-prefix "thumbnails/$d" "$url" && continue
                 echo "Download failed: $img_url"
 
-                # if fail; try download modified name
-                img_url=$(echo "$img_url" | sed -e 's/(.*)//g')
-                img_url=$(echo "$img_url" | sed -e 's/\.png/(USA)\.png/')
-                url="$base_url$img_url"
-                wget -q --directory-prefix "thumbnails/$d" "$url" || (echo "download failed: $img_url. No more retryes")
-
-
-
+                # done 2. attempt
+                wget -q --directory-prefix "thumbnails/$d" "$url2" || echo "download failed: $img_url2. No more retries"
             fi
 
 
