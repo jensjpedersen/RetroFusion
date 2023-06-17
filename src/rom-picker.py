@@ -1,7 +1,9 @@
 import sys
 import os
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+
+from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
+
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget
 
 src_path = os.path.dirname(os.path.realpath(__file__))
@@ -149,6 +151,16 @@ class MainWindow(QMainWindow):
         self.image_container = ImageContainerWidget(non_empty_dirs)
         self.setCentralWidget(self.image_container)
 
+        bg_image_path = f'{src_path}/../bg_2.jpg'  # Replace with the actual image path
+
+        # bg_image_path = f'{src_path}/path/to/background_image.jpg'  # Replace with the actual image path
+        self.set_background_image(bg_image_path)
+
+    def set_background_image(self, image_path):
+        background_image = QImage(image_path)
+        palette = QPalette()
+        palette.setBrush(QPalette.Background, QBrush(background_image))
+        self.setPalette(palette)
 
     def keyPressEvent(self, event):
         self.image_container.keyPressEvent(event)
