@@ -23,7 +23,7 @@ class ImageDisplayWidget(QWidget):
         self.image_directory = image_directory
         self.images = []
         self.current_index = 0
-        self.num_images_per_row = 9
+        self.num_images_per_row = 7
         # self.center_image_index = self.num_images_per_row // 2  # Index of the center image
         self.center_image_index = 0  # Index of the center image
         self.center_image_size = 300  # Size of the center image
@@ -145,6 +145,10 @@ class ImageContainerWidget(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        self.setWindowTitle("Python")
+        self.resize(1600, 900)
+ 
 
         thumbanils_path = f'{src_path}/../thumbnails'  # Replace with the actual directory path
         non_empty_dirs = list_non_empty_directories(thumbanils_path)
