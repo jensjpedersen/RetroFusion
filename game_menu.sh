@@ -13,6 +13,22 @@ root_dir=$(dirname "$(realpath "$0")")
 source "$root_dir/game_menu.conf"
 console_dir=( $(ls -1 "$games_dir") )
 
+
+
+
+function check_requirements {
+    progs="wget flatpak"
+    for p in $progs; do 
+        if ! which $p &>/dev/null; then 
+            echo "Program not installed: $p"
+            exit 1
+        fi
+    done
+
+
+}
+
+
 function find_thumbnails {
     echo "hei"
 }
@@ -79,7 +95,7 @@ function download_thumbnails {
                 url="$base_url$img_url"
 
             else
-                echo "Can't find $game_name"
+                echo "Can't find: $game_name"
                 continue 
             fi
 
@@ -172,6 +188,7 @@ function game_picker {
 
 
 function main {
+    check_requirements
     download_thumbnails
     game_picker
 }
