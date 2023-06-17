@@ -125,8 +125,15 @@ function download_thumbnails {
 
 function game_picker {
 
-    choice=$(sxiv -t -z 150 -of $root_dir/thumbnails/**/*)
-    choice=$(echo "$choice" | head -n 1) # full path to .png
+    # run with sxiv 
+    # choice=$(sxiv -t -z 150 -of $root_dir/thumbnails/**/*)
+    # choice=$(echo "$choice" | head -n 1) # full path to .png
+
+    # run python gui
+    choice=$(python3 "$root_dir/src/rom-picker.py")
+    choice=$(echo "$choice" | grep -e "choice:" | sed -e 's/\choice://')
+
+
 
     [[ -z "$choice" ]] && exit 0
 

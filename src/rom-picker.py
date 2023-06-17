@@ -82,32 +82,15 @@ class ImageDisplayWidget(QWidget):
 class ImageContainerWidget(QWidget):
     def __init__(self, thumbanils_dirs: list):
         super().__init__()
-        print(thumbanils_dirs)
 
         self.current_index: int = 0
-        self.gamecube_widget = ImageDisplayWidget("../thumbnails/gamecube")
-        self.ps2_widget = ImageDisplayWidget("../thumbnails/play_station_2")
-        self.n3ds_widget = ImageDisplayWidget("../thumbnails/nintendo_3ds")
-
         self.widgets = self.__create_image_widgets(thumbanils_dirs)
-
-        # Add widgets in dict
-
-
         self.layout = QGridLayout()
         self.setLayout(self.layout)
-
-
-        # TODO: refactor
-        # first_key = next(iter(self.widgets))
-        # first_value = self.widgets[first_key]
-
         self.current_console = list(self.widgets.keys())[self.current_index]
-        
         self.current_widget = self.widgets[self.current_console]
         self.layout.addWidget(self.current_widget, 0, 0)
 
-        # self.layout.addWidget(self.ps2_widget, 1, 0)
 
 
 
@@ -133,19 +116,23 @@ class ImageContainerWidget(QWidget):
             self.setCurrentWidget()
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Left:
+        if event.key() == Qt.Key_Left or event.key() == Qt.Key_H:
             self.current_widget.scroll_images(-1)
-        elif event.key() == Qt.Key_Right:
+        elif event.key() == Qt.Key_Right or event.key() == Qt.Key_L:
             self.current_widget.scroll_images(1)
-        elif event.key() == Qt.Key_Up:
+        elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
             if self.current_index == 0: self.current_index = len(self.widgets)
             step = -1
             self.__change_layout(step)
 
-        elif event.key() == Qt.Key_Down:
+        elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
             if self.current_index == len(self.widgets)-1: self.current_index = -1 
             step = +1
             self.__change_layout(step)
+
+        elif event.key() == Qt.Key_Return:
+            print(f'choice:{self.current_widget.images[self.current_widget.current_index]}')
+            sys.exit()
 
 
     def setCurrentWidget(self):
@@ -157,21 +144,24 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # Create image widgets
         thumbanils_path = f'{src_path}/../thumbnails'  # Replace with the actual directory path
         non_empty_dirs = list_non_empty_directories(thumbanils_path)
-        # self.image_container.create_image_widgets(non_empty_dirs)
-
         self.image_container = ImageContainerWidget(non_empty_dirs)
-        
-
-
         self.setCentralWidget(self.image_container)
 
 
     def keyPressEvent(self, event):
         self.image_container.keyPressEvent(event)
 
+
+def main(): 
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
+
+
+main()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
