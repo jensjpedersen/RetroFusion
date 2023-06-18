@@ -99,7 +99,7 @@ class TriangularButtonLeft(QPushButton):
         path.moveTo(self.width(), 0)  # Move to the top-right corner
         path.lineTo(0, self.height() / 2)  # Draw a line to the middle-left point
         path.lineTo(self.width(), self.height())  # Draw a line to the bottom-right corner
-        # path.lineTo(self.width(), 0)  # Draw a line back to the top-right corner
+        path.lineTo(self.width(), 0)  # Draw a line back to the top-right corner
 
         # Set the button's color and border
         if self.isDown():
@@ -115,18 +115,23 @@ class TriangularButtonLeft(QPushButton):
         return self.minimumSizeHint()
 
 
+def set_button(window: QWidget) -> None:
+    button_up = TriangularButtonUp(window)
+    button_right = TriangularButtonRight(window)
+    button_down = TriangularButtonDown(window)
+    button_left = TriangularButtonLeft(window)
+
+    button_left.move(10, 400)
+    button_up.move(800, 10)
+    button_right.move(1600, 400)
+    button_down.move(800, 700)
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = QWidget()
-    # button_up = TriangularButtonUp(window)
-    # button_right = TriangularButtonRight(window)
-    # button_down = TriangularButtonDown(window)
-    button_left = TriangularButtonLeft(window)
 
-
-    layout = QVBoxLayout()  # Create a vertical layout
+    set_button(window)
     
-
     # button_up.clicked.connect(lambda: print("Button clicked!"))
     window.show()
     sys.exit(app.exec_())

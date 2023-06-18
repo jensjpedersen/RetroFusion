@@ -6,6 +6,10 @@ from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
 
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget
 
+
+
+import test
+
 src_path = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -62,6 +66,7 @@ class ImageDisplayWidget(QWidget):
         # Set column and row stretch factors to ensure consistent spacing
         self.layout.setColumnStretch(self.num_images_per_row, 1)
         self.layout.setRowStretch(row + 1, 1)
+        self.layout.setContentsMargins(130, 200, 0, 0)
 
     def clear_images(self):
         while self.layout.count():
@@ -177,7 +182,7 @@ def main():
     sys.exit(app.exec_())
 
 
-main()
+# main()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
