@@ -130,7 +130,7 @@ function game_picker {
     # choice=$(echo "$choice" | head -n 1) # full path to .png
 
     # run python gui
-    choice=$(python3 "$root_dir/src/rom-picker.py")
+    choice=$(python3 "$root_dir/src/main.py")
     choice=$(echo "$choice" | grep -e "choice:" | sed -e 's/\choice://')
 
 

@@ -1,25 +1,11 @@
 import sys
 import os
+import pprint
 from PyQt5.QtCore import Qt
-
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
-
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget
-
-
-
-import test
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QVBoxLayout
 
 src_path = os.path.dirname(os.path.realpath(__file__))
-
-
-def list_non_empty_directories(directory):
-    non_empty_dirs = []
-    for root, dirs, files in os.walk(directory):
-        if files:
-            non_empty_dirs.append(root)
-    return non_empty_dirs
-
 
 class ImageDisplayWidget(QWidget):
     def __init__(self, image_directory):
@@ -147,48 +133,6 @@ class ImageContainerWidget(QWidget):
         self.current_widget.show()
 
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        self.setWindowTitle("Python")
-        self.resize(1600, 900)
- 
-
-        thumbanils_path = f'{src_path}/../thumbnails'  # Replace with the actual directory path
-        non_empty_dirs = list_non_empty_directories(thumbanils_path)
-        self.image_container = ImageContainerWidget(non_empty_dirs)
-        self.setCentralWidget(self.image_container)
-
-        bg_image_path = f'{src_path}/../bg_2.jpg'  # Replace with the actual image path
-
-        # bg_image_path = f'{src_path}/path/to/background_image.jpg'  # Replace with the actual image path
-        self.set_background_image(bg_image_path)
-
-    def set_background_image(self, image_path):
-        background_image = QImage(image_path)
-        palette = QPalette()
-        palette.setBrush(QPalette.Background, QBrush(background_image))
-        self.setPalette(palette)
-
-    def keyPressEvent(self, event):
-        self.image_container.keyPressEvent(event)
-
-
-def main(): 
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
-
-
-# main()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
 
 
 
