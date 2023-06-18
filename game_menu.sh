@@ -46,8 +46,8 @@ function download_thumbnails {
 
             file_name="${f##*/}"
 
-            if [ ! -d "thumbnails/$d" ]; then
-                mkdir "thumbnails/$d"
+            if [ ! -d "$root_dir/thumbnails/$d" ]; then
+                mkdir "$root_dir/thumbnails/$d"
             fi
 
             if [ $d = "gamecube" ]; then
@@ -130,8 +130,10 @@ function game_picker {
     # choice=$(echo "$choice" | head -n 1) # full path to .png
 
     # run python gui
-    choice=$(python3 "$root_dir/src/rom-picker.py")
+    echo "run python gui"
+    choice=$(python3 "$root_dir/src/rom_picker.py")
     choice=$(echo "$choice" | grep -e "choice:" | sed -e 's/\choice://')
+    echo "done"
 
 
 
