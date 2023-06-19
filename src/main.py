@@ -38,19 +38,11 @@ class MainWindow(QMainWindow):
         self.set_background_image(bg_image_path)
 
 
-        # Add labels 
-        self.image_container.layout.addLayout(labels.set_label(self, "GameCube", 500, 80), 0, 0, Qt.AlignBottom)
+        # Set label. 
+        labels.set_label(self, "GameCube", 500, 500)
 
-
-        # Add buttons
-        # buttons.set_button(self, "A", 100, 100)
-
-        buttons.set_button(self.image_container)
-
-        # pprint.pprint(self.image_container.__dict__)
-
-        # main_layout = self.image_container.layout
-        # main_layout.addLayout(layout, 0, 0, Qt.AlignBottom)
+        # Add buttons 
+        buttons.set_button(self)
 
 
 
