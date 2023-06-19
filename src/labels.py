@@ -25,8 +25,14 @@ class Labels(QWidget):
     def __get_consoles(self) -> tuple[str, str]:
 
         current_index = self.window.current_index
-        next_console = list(self.window.widgets.keys())[current_index + 1]
-        prev_console = list(self.window.widgets.keys())[current_index - 1]
+
+        if self.window.current_index == len(self.window.widgets)-1:
+            next_console = list(self.window.widgets.keys())[0]
+            prev_console = list(self.window.widgets.keys())[current_index - 1]
+        else:
+            next_console = list(self.window.widgets.keys())[current_index + 1]
+            prev_console = list(self.window.widgets.keys())[current_index - 1]
+
 
         return prev_console, next_console
 
@@ -49,11 +55,6 @@ class Labels(QWidget):
         label.adjustSize()
 
         return label
-
-    def __remove_label(self) -> None:
-        # self.prev_label.deleteLater()
-        pass
-        # self.next_label.deleteLater()
 
 
 if __name__ == '__main__':
