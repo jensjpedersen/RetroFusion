@@ -46,8 +46,8 @@ function download_thumbnails {
 
             file_name="${f##*/}"
 
-            if [ ! -d "thumbnails/$d" ]; then
-                mkdir "thumbnails/$d"
+            if [ ! -d "$root_dir/thumbnails/$d" ]; then
+                mkdir "$root_dir/thumbnails/$d"
             fi
 
             if [ $d = "gamecube" ]; then
@@ -108,7 +108,6 @@ function download_thumbnails {
 
                 # Save filename corresponding to rom name. 
                 # download 1. attempt
-                echo $img_url
                 wget -q -O "$root_dir/thumbnails/$d/$file_name.png" "$url" && continue
 
                 # download 2. attempt
