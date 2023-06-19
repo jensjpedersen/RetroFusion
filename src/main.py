@@ -39,10 +39,15 @@ class MainWindow(QMainWindow):
 
 
         # Set label. 
-        labels.set_label(self, "GameCube", 500, 500)
+        self.labels = labels.Labels(self.image_container)
+        # labels.Labels(self)
+        # labels.set_label(self, "GameCube", 500, 500)
 
         # Add buttons 
         buttons.set_button(self)
+
+        self.setFocusPolicy(Qt.StrongFocus)
+
 
 
 
@@ -53,7 +58,30 @@ class MainWindow(QMainWindow):
         self.setPalette(palette)
 
     def keyPressEvent(self, event):
-        self.image_container.keyPressEvent(event)
+        # self.image_container.keyPressEvent(event)
+        # self.labels.keyPressEvent(event)
+
+        if event.key() == Qt.Key_Left or event.key() == Qt.Key_H:
+            self.image_container.current_widget.scroll_images(-1)
+        elif event.key() == Qt.Key_Right or event.key() == Qt.Key_L:
+            self.image_container.current_widget.scroll_images(1)
+        elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
+            if self.image_container == 0: self.image_container.current_index = len(self.image_container.widgets)
+            self.image_container.change_layout(-1)
+
+            # self.labels = labels.Labels(self.image_container)
+            # self.labels.create_label_prev(self.image_container)
+            self.labels.update_label(self.image_container)
+
+        elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
+            if self.image_container.current_index == len(self.image_container.widgets)-1: self.image_container.current_index = -1 
+            self.image_container.change_layout(+1)
+
+            self.labels.update_label(self.image_container)
+
+        elif event.key() == Qt.Key_Return:
+            print(f'choice:{self.image_container.current_widget.images[self.image_container.current_widget.current_index]}')
+            sys.exit()
 
 
 

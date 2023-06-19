@@ -82,6 +82,9 @@ class ImageContainerWidget(QWidget):
         self.setLayout(self.layout)
         self.current_console = list(self.widgets.keys())[self.current_index]
         self.current_widget = self.widgets[self.current_console]
+
+        # Aligh veritcally at center
+
         self.layout.addWidget(self.current_widget, 0, 0)
 
 
@@ -96,7 +99,7 @@ class ImageContainerWidget(QWidget):
         return widgets
 
 
-    def __change_layout(self, step: int) -> None:
+    def change_layout(self, step: int) -> None:
 
             self.current_widget.hide()
             self.layout.removeWidget(self.current_widget)
@@ -108,24 +111,22 @@ class ImageContainerWidget(QWidget):
             self.layout.addWidget(self.current_widget, 0, 0)
             self.setCurrentWidget()
 
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Left or event.key() == Qt.Key_H:
-            self.current_widget.scroll_images(-1)
-        elif event.key() == Qt.Key_Right or event.key() == Qt.Key_L:
-            self.current_widget.scroll_images(1)
-        elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
-            if self.current_index == 0: self.current_index = len(self.widgets)
-            step = -1
-            self.__change_layout(step)
+    # def keyPressEvent(self, event):
+    #     if event.key() == Qt.Key_Left or event.key() == Qt.Key_H:
+    #         self.current_widget.scroll_images(-1)
+    #     elif event.key() == Qt.Key_Right or event.key() == Qt.Key_L:
+    #         self.current_widget.scroll_images(1)
+    #     elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
+    #         if self.current_index == 0: self.current_index = len(self.widgets)
+    #         self.change_layout(-1)
 
-        elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
-            if self.current_index == len(self.widgets)-1: self.current_index = -1 
-            step = +1
-            self.__change_layout(step)
+    #     elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
+    #         if self.current_index == len(self.widgets)-1: self.current_index = -1 
+    #         self.change_layout(+1)
 
-        elif event.key() == Qt.Key_Return:
-            print(f'choice:{self.current_widget.images[self.current_widget.current_index]}')
-            sys.exit()
+    #     elif event.key() == Qt.Key_Return:
+    #         print(f'choice:{self.current_widget.images[self.current_widget.current_index]}')
+    #         sys.exit()
 
 
     def setCurrentWidget(self):
