@@ -71,13 +71,12 @@ class MainWindow(QMainWindow):
 
             # self.labels = labels.Labels(self.image_container)
             # self.labels.create_label_prev(self.image_container)
-            self.labels.update_label(self.image_container)
+            self.labels.update_label()
 
         elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
             if self.image_container.current_index == len(self.image_container.widgets)-1: self.image_container.current_index = -1 
             self.image_container.change_layout(+1)
-
-            self.labels.update_label(self.image_container)
+            self.labels.update_label()
 
         elif event.key() == Qt.Key_Return:
             print(f'choice:{self.image_container.current_widget.images[self.image_container.current_widget.current_index]}')

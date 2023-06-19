@@ -9,47 +9,35 @@ import sys
 
 class Labels(QWidget):
     def __init__(self, window: rom_picker.ImageContainerWidget):
-        super().__init__(window)
+
+        super().__init__()
         self.window = window
+        self.prev_label, self.next_label = self.__create_labels()
 
+    def __create_labels(self) -> tuple[QLabel, QLabel]:
 
-        self.create_label_next(self.window)# -> self.next_label
-        self.create_label_prev(self.window)# -> self.prev_label
-        # self.set_labels(se)
-        # self.__print()
+        prev_console, next_console = self.__get_consoles()
+        next_label = self.__create_label(next_console, 500, 600)
+        prev_label = self.__create_label(prev_console, 500, 50)
 
-    # def __print(self) -> None:
-    #     pprint.pprint(self.__dict__)
-    #     pprint.pprint(self.window.__dict__)
+        return prev_label, next_label
 
-    def create_label_next(self, window) -> QLabel: 
-        self.window = window
-        current_index = self.window.current_index
-        next_console = list(self.window.widgets.keys())[current_index + 1]
-        self.next_label = self.__create_label(next_console, 500, 600)
+    def __get_consoles(self) -> tuple[str, str]:
 
-
-    def create_label_prev(self, window) -> QLabel:
-        self.window = window
-        current_index = self.window.current_index
-        prev_console = list(self.window.widgets.keys())[current_index - 1]
-        self.prev_label = self.__create_label(prev_console, 500, 50)
-
-
-    def update_label(self, window) -> None:
-        self.window = window
         current_index = self.window.current_index
         next_console = list(self.window.widgets.keys())[current_index + 1]
         prev_console = list(self.window.widgets.keys())[current_index - 1]
 
-        # Continue
+        return prev_console, next_console
+
+    def update_label(self) -> None:
+
+        prev_console, next_console = self.__get_consoles()
         self.next_label.setText(next_console)
         self.prev_label.setText(prev_console)
 
-
-
-
     def __create_label(self, text: str, x: int, y: int) -> QLabel: 
+
         label = QLabel(text, self.window)
         font = QFont()
         font.setFamily(u"Inconsolata Extra Condensed ExtraBold")
