@@ -104,12 +104,14 @@ function download_thumbnails {
             img_url2=$(echo "$img_url2" | sed -e 's/\.png/(USA)\.png/')
             url2="$base_url$img_url2"
 
-            if [ ! -f "thumbnails/$d/$img_url" ] && [ ! -f "thumbnails/$d/$img_url2" ] ; then 
+            if [ ! -f "$root_dir/thumbnails/$d/$file_name.png" ]; then 
+
                 # Save filename corresponding to rom name. 
                 # download 1. attempt
+                echo $img_url
                 wget -q -O "$root_dir/thumbnails/$d/$file_name.png" "$url" && continue
 
-                # done 2. attempt
+                # download 2. attempt
                 wget -q -O "$root_dir/thumbnails/$d/$file_name.png" "$url2" || echo "download failed: $img_url2. No more retries"
             fi
 
