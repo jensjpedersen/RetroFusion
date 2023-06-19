@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage, QPalette, QBrush
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget, QVBoxLayout
 
+
 src_path = os.path.dirname(os.path.realpath(__file__))
 
 class ImageDisplayWidget(QWidget):
@@ -43,6 +44,8 @@ class ImageDisplayWidget(QWidget):
                 pixmap = pixmap.scaledToWidth(200)
 
             image_label.setPixmap(pixmap)
+
+            # Center veritcally
             self.layout.addWidget(image_label, row, col)
             col += 1
             if col >= self.num_images_per_row:
@@ -52,7 +55,7 @@ class ImageDisplayWidget(QWidget):
         # Set column and row stretch factors to ensure consistent spacing
         self.layout.setColumnStretch(self.num_images_per_row, 1)
         self.layout.setRowStretch(row + 1, 1)
-        self.layout.setContentsMargins(130, 200, 0, 0)
+        self.layout.setContentsMargins(130, 0, 0, 300)
 
     def clear_images(self):
         while self.layout.count():
@@ -82,10 +85,7 @@ class ImageContainerWidget(QWidget):
         self.setLayout(self.layout)
         self.current_console = list(self.widgets.keys())[self.current_index]
         self.current_widget = self.widgets[self.current_console]
-
-        # Aligh veritcally at center
-
-        self.layout.addWidget(self.current_widget, 0, 0)
+        self.layout.addWidget(self.current_widget, 0, 0, Qt.AlignVCenter)
 
 
 
@@ -100,7 +100,6 @@ class ImageContainerWidget(QWidget):
 
 
     def change_layout(self, step: int) -> None:
-
             self.current_widget.hide()
             self.layout.removeWidget(self.current_widget)
 
@@ -108,25 +107,8 @@ class ImageContainerWidget(QWidget):
             self.current_index = self.current_index + step
             self.current_console = list(self.widgets)[self.current_index]
             self.current_widget = self.widgets[self.current_console]
-            self.layout.addWidget(self.current_widget, 0, 0)
+            self.layout.addWidget(self.current_widget, 0, 0, Qt.AlignVCenter)
             self.setCurrentWidget()
-
-    # def keyPressEvent(self, event):
-    #     if event.key() == Qt.Key_Left or event.key() == Qt.Key_H:
-    #         self.current_widget.scroll_images(-1)
-    #     elif event.key() == Qt.Key_Right or event.key() == Qt.Key_L:
-    #         self.current_widget.scroll_images(1)
-    #     elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
-    #         if self.current_index == 0: self.current_index = len(self.widgets)
-    #         self.change_layout(-1)
-
-    #     elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
-    #         if self.current_index == len(self.widgets)-1: self.current_index = -1 
-    #         self.change_layout(+1)
-
-    #     elif event.key() == Qt.Key_Return:
-    #         print(f'choice:{self.current_widget.images[self.current_widget.current_index]}')
-    #         sys.exit()
 
 
     def setCurrentWidget(self):

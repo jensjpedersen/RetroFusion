@@ -36,7 +36,7 @@ class StartButton(QPushButton):
         self.update_icon()
         self.setIconSize(QSize(150, 150))
         self.setStyleSheet("background-color: rgba(76,25,40,0);")
-        self.move(10, 10)
+        self.move(1500, 30)
 
     def clickme(self):
         print("pressed")

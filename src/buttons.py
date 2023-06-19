@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
-from PyQt5.QtGui import QPainter, QPainterPath
+from PyQt5.QtGui import QPainter, QPainterPath, QColor
 from PyQt5.QtCore import Qt
 import sys
 
@@ -24,7 +24,11 @@ class TriangularButtonUp(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(Qt.black)
+            # painter.setBrush(Qt.black)
+            painter.setBrush(QColor(76, 25, 40))
+
+
+        # self.setStyleSheet("background-color: rgba(76,25,40,0);")
         painter.setPen(Qt.black)
         painter.drawPath(path)
 
@@ -51,7 +55,8 @@ class TriangularButtonRight(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(Qt.lightGray)
+            # painter.setBrush(Qt.black)
+            painter.setBrush(QColor(76, 25, 40))
         painter.setPen(Qt.black)
         painter.drawPath(path)
 
@@ -79,7 +84,10 @@ class TriangularButtonDown(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(Qt.lightGray)
+            # painter.setBrush(Qt.black)
+            painter.setBrush(QColor(76, 25, 40))
+
+
         painter.setPen(Qt.black)
         painter.drawPath(path)
 
@@ -107,7 +115,9 @@ class TriangularButtonLeft(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(Qt.lightGray)
+            # painter.setBrush(Qt.black)
+            painter.setBrush(QColor(76, 25, 40))
+
         painter.setPen(Qt.black)
         painter.drawPath(path)
 
@@ -121,10 +131,10 @@ def set_button(window: QWidget) -> None:
     button_down = TriangularButtonDown(window)
     button_left = TriangularButtonLeft(window)
 
-    button_left.move(10, 400)
-    button_up.move(800, 10)
-    button_right.move(1600, 400)
-    button_down.move(800, 700)
+    button_left.move(15, 320)
+    button_up.move(900, 10)
+    button_right.move(1700, 320)
+    button_down.move(900, 600)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
