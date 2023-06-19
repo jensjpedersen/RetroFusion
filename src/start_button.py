@@ -10,14 +10,17 @@ class StartButton(QPushButton):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-
         self.__create_button()
-
         self.__print_parent()
-
 
     def __print_parent(self):
         pprint.pprint(self.parent().__dict__)
+
+
+    def update_icon(self):
+        self.console = self.parent().image_container.current_console
+        self.setIcon(QIcon(f"../resources/{self.console}_logo.png"))
+        # self.setIcon(QIcon(f"../resources/gamecube_logo.png"))
 
 
     def __create_button(self): 
@@ -25,25 +28,23 @@ class StartButton(QPushButton):
         # button = QPushButton("CLICK", self)
         # button = QPushButton("", self)
 
-        self.setGeometry(100, 100, 100, 100)
+        self.setGeometry(150, 150, 150, 150)
 
         self.clicked.connect(self.clickme)
 
-        self.setIcon(QIcon("../resources/play_station_2_logo.png"))
-        self.setIconSize(QSize(100, 100))
-        self.setStyleSheet("background-color: rgba(0,0,0,0);")
+        # self.setIcon(QIcon("../resources/play_station_2_logo.png"))
+        self.update_icon()
+        self.setIconSize(QSize(150, 150))
+        self.setStyleSheet("background-color: rgba(76,25,40,0);")
         self.move(10, 10)
-        # button.show()
 
     def clickme(self):
-        # printing pressed
         print("pressed")
 
  
  
 
 if __name__ == '__main__':
-    pass
     app = QApplication(sys.argv)
     window = QWidget()
     button = StartButton(window)
