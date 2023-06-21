@@ -2,14 +2,11 @@
 import rom_picker
 import buttons
 import console_menu 
-import start_button
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QStackedLayout, QLabel
 from PyQt5.QtGui import QImage, QPalette, QBrush
 from PyQt5.QtCore import Qt
 import sys
 import os 
-import pprint
-import test
 
 
 src_path = os.path.dirname(os.path.realpath(__file__))
