@@ -19,8 +19,8 @@ class ConsoleMenuContainer(QWidget):
         labels = []
     
         dy = 50
-        y0 = 600
-        x0 = 10
+        y0 = 550
+        x0 = 50
 
         for i, console in enumerate(widgets):
 
@@ -66,11 +66,13 @@ class Labels(QLabel):
     def __create_label(self, x: int, y: int):
         font = QFont()
         font.setFamily(u"Classic Console")
-        font.setPointSize(50)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(45)
+        font.setBold(False)
+        # font.setWeight(75)
+        # font.setWeight(0)
         self.setFont(font)
         self.move(x, y)
+        self.setStyleSheet("QLabel { color: #141c27 }")
         self.resize(800, 120)
 
 
@@ -78,7 +80,7 @@ class Labels(QLabel):
         self.setStyleSheet("QLabel { color: #FFFFFF }")
 
     def remove_highlight(self) -> None:
-        self.setStyleSheet("QLabel { color: #000000 }")
+        self.setStyleSheet("QLabel { color: #141c27 }")
 
     def __set_text(self, text: str) -> None:
         text = self.__format_text(text)

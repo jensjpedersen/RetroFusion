@@ -27,15 +27,17 @@ class StartButton(QPushButton):
         # button = QPushButton("CLICK", self)
         # button = QPushButton("", self)
 
-        self.setGeometry(150, 150, 150, 150)
+        self.setGeometry(200, 200, 200, 200)
 
         self.clicked.connect(self.clickme)
 
         # self.setIcon(QIcon("../resources/play_station_2_logo.png"))
         self.update_icon()
-        self.setIconSize(QSize(150, 150))
+        # self.setIconSize(QSize(150, 150))
+        self.setIconSize(QSize(200, 200))
         self.setStyleSheet("background-color: rgba(76,25,40,0);")
-        self.move(1500, 30)
+        # self.move(1500, 30)
+        self.move(10, 10)
 
     def clickme(self):
         print("pressed")

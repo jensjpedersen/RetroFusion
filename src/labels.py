@@ -7,20 +7,23 @@ import rom_picker
 import sys
 
 
-class Labels(QWidget):
-    def __init__(self, window: rom_picker.ImageContainerWidget):
+class Labels(QLabel):
+    def __init__(self, window):
 
-        super().__init__()
+        super().__init__(window)
         self.window = window
-        self.prev_label, self.next_label = self.__create_labels()
 
-    def __create_labels(self) -> tuple[QLabel, QLabel]:
+        self.items = ['item1', 'item2', 'item3', 'item4', 'item5']
 
-        prev_console, next_console = self.__get_consoles()
-        next_label = self.__create_label(next_console, 800, 480)
-        prev_label = self.__create_label(prev_console, 800, 100)
+        self.__create_label('this is a text', 10, 10)
 
-        return prev_label, next_label
+    # def __create_labels(self) -> tuple[QLabel, QLabel]:
+
+    #     prev_console, next_console = self.__get_consoles()
+    #     next_label = self.__create_label(next_console, 800, 480)
+    #     prev_label = self.__create_label(prev_console, 800, 100)
+
+    #     return prev_label, next_label
 
     def __get_consoles(self) -> tuple[str, str]:
 
@@ -38,7 +41,7 @@ class Labels(QWidget):
 
     def update_label(self) -> None:
 
-        prev_console, next_console = self.__get_consoles()
+        # prev_console, next_console = self.__get_consoles()
 
         prev_console = self.__format_text(prev_console)
         next_console = self.__format_text(next_console)

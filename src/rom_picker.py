@@ -14,7 +14,7 @@ class ImageDisplayWidget(QWidget):
         self.image_directory = image_directory
         self.images = []
         self.current_index = 0
-        self.num_images_per_row = 7
+        self.num_images_per_row = 9
         # self.center_image_index = self.num_images_per_row // 2  # Index of the center image
         self.center_image_index = 0  # Index of the center image
         self.center_image_size = 300  # Size of the center image
@@ -55,7 +55,7 @@ class ImageDisplayWidget(QWidget):
         # Set column and row stretch factors to ensure consistent spacing
         self.layout.setColumnStretch(self.num_images_per_row, 1)
         self.layout.setRowStretch(row + 1, 1)
-        self.layout.setContentsMargins(130, 0, 0, 300)
+        self.layout.setContentsMargins(50, 0, 0, 450)
 
     def clear_images(self):
         while self.layout.count():
