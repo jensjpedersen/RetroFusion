@@ -43,11 +43,13 @@ class MainWindow(QMainWindow):
 
 
         # Add buttons 
-        buttons.set_button(self)
+        # buttons.set_button(self)
+
+        self.buttons = buttons.ButtonContainer(self)
 
 
         # Start button 
-        self.start_button = start_button.StartButton(self)
+        # self.start_button = start_button.StartButton(self)
 
         # Init console menu
         self.console_menu = console_menu.ConsoleMenuContainer(self)
@@ -70,14 +72,16 @@ class MainWindow(QMainWindow):
         elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
             if self.image_container.current_index == 0: self.image_container.current_index = len(self.image_container.widgets)
             self.image_container.change_layout(-1)
-            self.start_button.update_icon()
+            # self.start_button.update_icon()
             self.console_menu.update()
+            self.buttons.update()
 
         elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
             if self.image_container.current_index == len(self.image_container.widgets)-1: self.image_container.current_index = -1 
             self.image_container.change_layout(+1)
-            self.start_button.update_icon()
+            # self.start_button.update_icon()
             self.console_menu.update()
+            self.buttons.update()
 
         elif event.key() == Qt.Key_Return:
             print(f'choice:{self.image_container.current_widget.images[self.image_container.current_widget.current_index]}')
