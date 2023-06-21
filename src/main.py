@@ -1,14 +1,15 @@
 
 import rom_picker
 import buttons
-import labels
+import console_menu 
 import start_button
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QStackedLayout, QLabel
 from PyQt5.QtGui import QImage, QPalette, QBrush
 from PyQt5.QtCore import Qt
 import sys
 import os 
 import pprint
+import test
 
 
 src_path = os.path.dirname(os.path.realpath(__file__))
@@ -25,7 +26,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Python")
+        self.setWindowTitle("Retro Fusion")
         self.resize(1600, 900)
  
 
@@ -36,13 +37,10 @@ class MainWindow(QMainWindow):
 
         # Set background_image
         bg_image_path = f'{src_path}/../bg_2.jpg'  # Replace with the actual image path
+        # bg_image_path = f'{src_path}/../sep09.jpg'
         self.set_background_image(bg_image_path)
 
 
-        # Set label. 
-        self.labels = labels.Labels(self.image_container)
-        # labels.Labels(self)
-        # labels.set_label(self, "GameCube", 500, 500)
 
         # Add buttons 
         buttons.set_button(self)
@@ -51,10 +49,8 @@ class MainWindow(QMainWindow):
         # Start button 
         self.start_button = start_button.StartButton(self)
 
-
-        # self.setFocusPolicy(Qt.StrongFocus)
-
-
+        # Init console menu
+        self.console_menu = console_menu.ConsoleMenuContainer(self)
 
 
     def set_background_image(self, image_path):
@@ -64,8 +60,6 @@ class MainWindow(QMainWindow):
         self.setPalette(palette)
 
     def keyPressEvent(self, event):
-        # self.image_container.keyPressEvent(event)
-        # self.labels.keyPressEvent(event)
 
         if event.key() == Qt.Key_Left or event.key() == Qt.Key_H:
             self.image_container.current_widget.scroll_images(-1)
@@ -76,17 +70,14 @@ class MainWindow(QMainWindow):
         elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
             if self.image_container.current_index == 0: self.image_container.current_index = len(self.image_container.widgets)
             self.image_container.change_layout(-1)
-
-            # self.labels = labels.Labels(self.image_container)
-            # self.labels.create_label_prev(self.image_container)
-            self.labels.update_label()
             self.start_button.update_icon()
+            self.console_menu.update()
 
         elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
             if self.image_container.current_index == len(self.image_container.widgets)-1: self.image_container.current_index = -1 
             self.image_container.change_layout(+1)
-            self.labels.update_label()
             self.start_button.update_icon()
+            self.console_menu.update()
 
         elif event.key() == Qt.Key_Return:
             print(f'choice:{self.image_container.current_widget.images[self.image_container.current_widget.current_index]}')
@@ -95,27 +86,9 @@ class MainWindow(QMainWindow):
 
 
 def main(): 
-    # app = QApplication(sys.argv)
-    # window = rom_picker.MainWindow()
-
-
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
-
-
-
-
-    # buttons.set_button(window)
-
-    # labels.set_label(window, "GameCube", 10, 10)
-
-
-
-    # window.show()
-    # sys.exit(app.exec_())
-
-
 
 main()
