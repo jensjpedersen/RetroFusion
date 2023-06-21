@@ -31,7 +31,6 @@ class ConsoleMenuContainer(QWidget):
 
             labels.append(label)
 
-        print(labels)
         return labels
 
 
