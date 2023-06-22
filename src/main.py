@@ -71,14 +71,14 @@ class MainWindow(QMainWindow):
             self.image_container.change_layout(-1)
             # self.start_button.update_icon()
             self.console_menu.update()
-            self.buttons.update()
+            # self.buttons.update()
 
         elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
             if self.image_container.current_index == len(self.image_container.widgets)-1: self.image_container.current_index = -1 
             self.image_container.change_layout(+1)
             # self.start_button.update_icon()
             self.console_menu.update()
-            self.buttons.update()
+            # self.buttons.update()
 
         elif event.key() == Qt.Key_Return:
             print(f'choice:{self.image_container.current_widget.images[self.image_container.current_widget.current_index]}')
