@@ -157,10 +157,10 @@ function game_picker {
         emulator='org.DolphinEmu.dolphin-emu'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "org.DolphinEmu.dolphin-emu" || notify-send "Could not install: $emulator" && exit 1
+            flatpak install --noninteractive "org.DolphinEmu.dolphin-emu" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        setsid -f "$emulator" -e "$result" &
+        setsid -f flatpak run "$emulator" -e "$result" &
         sleep 2 
         id=$(xdotool search --name "dolphin-emu" | head -n 1)
         xdotool key --window $id "$fullscreen_key"
@@ -169,10 +169,10 @@ function game_picker {
         emulator='net.pcsx2.PCSX2'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
+            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi 
 
-        setsid -f pcsx2-qt -fullscreen "$result" & 
+        setsid -f flatpak run "$emulator" -fullscreen "$result" & 
 
     elif echo "$choice" | grep -q "nintendo_64"; then 
 
@@ -186,18 +186,18 @@ function game_picker {
 
         emulator='org.citra_emu.citra'
 
-        if ! whcih "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
+        if ! which "$emulator"; then 
+            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        setsid -f "$emulator" "$result" & 
+        setsid -f flatpak run "$emulator" "$result" & 
 
     elif echo "$choice" | grep -q "game_boy_advance"; then
 
         emulator='io.mgba.mGBA'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
+            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
         setsid -f flatpak run io.mgba.mGBA -f "$result" &
@@ -207,10 +207,10 @@ function game_picker {
         emulator='org.yuzu_emu.yuzu'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
+            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        setsid -f "$emulator" "$result" &
+        setsid -f flatpak run "$emulator" "$result" &
 
 
     fi
