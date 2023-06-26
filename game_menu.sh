@@ -14,10 +14,17 @@ source "$root_dir/game_menu.conf"
 console_dir=( $(ls -1 "$games_dir") )
 
 
+# fatal() {
+#   echo "FATAL ERROR: $@"
+#   exit 1
+# }
+# trap 'sudo -k' EXIT
+
+# zenity --password | sudo -Sv || fatal "Unable to sudo"
 
 
 function check_requirements {
-    progs="wget flatpak"
+    progs="wget flatpak setsid xdotool python3"
     for p in $progs; do 
         if ! which $p &>/dev/null; then 
             echo "Program not installed: $p"
@@ -147,23 +154,25 @@ function game_picker {
     [[ -z "$result" ]] && notify-send "Can't find file: $file_search" && exit 1
 
     if echo "$choice" | grep -q "gamecube"; then
+        emulator='org.DolphinEmu.dolphin-emu'
 
-        if which dolphin-emu; then 
-            setsid -f dolphin-emu -e "$result" &
-            sleep 2 
-            id=$(xdotool search --name "dolphin-emu" | head -n 1)
-            xdotool key --window $id 'super+f'
-        else 
-            notify-send "Not installed: dolphin-emu"
+        if ! which "$emulator"; then 
+            flatpak install --noninteractive "org.DolphinEmu.dolphin-emu" || notify-send "Could not install: $emulator" && exit 1
         fi
+
+        setsid -f "$emulator" -e "$result" &
+        sleep 2 
+        id=$(xdotool search --name "dolphin-emu" | head -n 1)
+        xdotool key --window $id 'super+f'
 
     elif echo "$choice" | grep -q "play_station_2"; then
+        emulator='net.pcsx2.PCSX2'
 
-        if which pcsx2-qt; then 
-            setsid -f pcsx2-qt -fullscreen "$result" & 
-        else
-            notify-send "Not installed: pcsx2-qt"
-        fi
+        if ! which "$emulator"; then 
+            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
+        fi 
+
+        setsid -f pcsx2-qt -fullscreen "$result" & 
 
     elif echo "$choice" | grep -q "nintendo_64"; then 
 
@@ -175,19 +184,33 @@ function game_picker {
 
     elif echo "$choice" | grep -q "nintendo_3ds"; then 
 
-        if flatpak list | grep -q org.citra_emu.citra; then 
-            setsid -f flatpak run org.citra_emu.citra "$result" & 
-        else 
-            notify-send "Not installed: org.citra_emu.citra_emu"
+        emulator='org.citra_emu.citra'
+
+        if ! whcih "$emulator"; then 
+            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
         fi
+
+        setsid -f "$emulator" "$result" & 
 
     elif echo "$choice" | grep -q "game_boy_advance"; then
 
-        if flatpak list | grep -q io.mgba.mGBA; then 
-            setsid -f flatpak run io.mgba.mGBA -f "$result" &
-        else
-            notify-send "Not installed: io.mgba.mGBA"
+        emulator='io.mgba.mGBA'
+
+        if ! which "$emulator"; then 
+            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
         fi
+
+        setsid -f flatpak run io.mgba.mGBA -f "$result" &
+
+    elif echo "$choice" | grep -q "nintendo_switch"; then
+
+        emulator='org.yuzu_emu.yuzu'
+
+        if ! which "$emulator"; then 
+            flatpak install --noninteractive "$emulator" || notify-send "Could not install: $emulator" && exit 1
+        fi
+
+        setsid -f "$emulator" "$result" &
 
 
     fi
