@@ -163,7 +163,7 @@ function game_picker {
         setsid -f "$emulator" -e "$result" &
         sleep 2 
         id=$(xdotool search --name "dolphin-emu" | head -n 1)
-        xdotool key --window $id 'super+f'
+        xdotool key --window $id "$fullscreen_key"
 
     elif echo "$choice" | grep -q "play_station_2"; then
         emulator='net.pcsx2.PCSX2'
