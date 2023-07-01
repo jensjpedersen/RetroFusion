@@ -100,13 +100,13 @@ function base_installer {
 }
 
 
-if which dnf &>/dev/null; then
-    dnf_base_installer
+# if which dnf &>/dev/null; then
+#     dnf_base_installer
 
-    # Add flatpak repo
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+#     # Add flatpak repo
+#     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-fi
+# fi
 # Create a string variable with spaces over multiple lines
 
 
@@ -116,6 +116,7 @@ function main {
     check_pkg_manager # Check for supported package manager
     prompt_for_sudo # Prompt for sudo password
     base_installer # Install base dependencies
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 }
 
