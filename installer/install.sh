@@ -39,22 +39,63 @@ function prompt_for_sudo {
 
 }
 
+
 # Handle general dependencies
-#
-#
 
+function __pacman_base_installer {
+    prog_list=("wget" "git" "flatpak" "python" "pip")
+    pkg_list=("wget" "git" "flatpak" "python" "python-pip")
 
-function dnf_base_installer() {
-    pkg_list=" wget git flatpak python3 python3-pip"
+    for ((i=0; i<${#prog_list[@]}; i++)); do
+        prog=${prog_list[$i]}
+        pkg=${pkg_list[$i]}
+        which $prog &>/dev/null && continue
 
-    for i in $pkg_list; do
-        which $i &>/dev/null && continue
+        sudo pacman -S --noconfirm $pkg && echo $pkg >> $installed_pkg_list
+
+    done
+}
+
+function __dnf_base_installer {
+    prog_list=("wget" "git" "flatpak" "python" "pip")
+    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip")
+
+    for ((i=0; i<${#prog_list[@]}; i++)); do
+        prog=${prog_list[$i]}
+        pkg=${pkg_list[$i]}
+        which $prog &>/dev/null && continue
+
+        sudo pacman -S --noconfirm $pkg && echo $pkg >> $installed_pkg_list
+
+    done
+}
+
+function __apt_base_installer {
+    prog_list=("wget" "git" "flatpak" "python" "pip")
+    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip")
+
+    for ((i=0; i<${#prog_list[@]}; i++)); do
+        prog=${prog_list[$i]}
+        pkg=${pkg_list[$i]}
+        which $prog &>/dev/null && continue
+
+        sudo pacman -S --noconfirm $pkg && echo $pkg >> $installed_pkg_list
+
     done
 
-    echo "Installing wget, git ..."
 
-    # TODO: 
-    # * loop pgk_list if not installed -> install and add to pkg_list
+
+}
+
+function base_installer {
+    if which pacman &>/dev/null; then
+        __pacman_base_installer
+    elif which dnf &>/dev/null; then
+        __dnf_base_installer
+    else
+        fatal "No supported package manager found"
+    fi
+
 
 }
 
@@ -72,8 +113,9 @@ fi
 
 
 function main {
-    check_pkg_manager
-    # prompt_for_sudo
+    check_pkg_manager # Check for supported package manager
+    prompt_for_sudo # Prompt for sudo password
+    base_installer # Install base dependencies
 
 }
 
