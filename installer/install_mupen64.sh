@@ -41,7 +41,7 @@ function __dnf_install {
         pkg=${pkg_list[$i]}
         which $prog &>/dev/null && continue
 
-        sudo pacman -S --noconfirm $pkg && echo $pkg >> $installed_pkg_list
+        sudo dnf install -y $pkg && echo $pkg >> $installed_pkg_list
 
     done
 
