@@ -98,7 +98,7 @@ function base_installer {
         fatal "No supported package manager found"
     fi
 
-    pip list | grep -q 'PyQt5\s' || pip install --yes PyQt5
+    pip list | grep -q 'PyQt5\s' || pip install --no-input PyQt5
 
 }
 
