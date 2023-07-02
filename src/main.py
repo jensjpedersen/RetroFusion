@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt
 import sys
 import os 
 
+# TODO: handle empty dirs
 
 src_path = os.path.dirname(os.path.realpath(__file__))
 

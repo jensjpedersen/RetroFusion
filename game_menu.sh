@@ -7,6 +7,8 @@ export DISPLAY=:0
 # flatpak install citra
 
 
+# TODO: handle C-C
+
 root_dir=$(dirname "$(realpath "$0")")
 
 # import variables: games_dir

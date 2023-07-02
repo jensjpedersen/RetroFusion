@@ -5,6 +5,8 @@ from PyQt5.QtCore import Qt, QSize
 import sys
 import os 
 
+# TODO: handle C-C
+
 
 src_path = os.path.dirname(os.path.realpath(__file__))
 
