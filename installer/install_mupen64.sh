@@ -57,7 +57,7 @@ function __python_setup {
 
     if cd $install_path; then
         # pip3 install -r requirements.txt 
-        pip3 install --yes pyqt5 pysdl2
+        pip3 install --no-input pysdl2
         python setup.py build
         python setup.py install --user
     else
@@ -79,7 +79,7 @@ function __pacman_uninstall {
     if cd "$install_path"; then
         # pip3 uninstall -r requirements.txt
 
-        pip3 uninstall --yes pyqt5 pysdl2
+        pip3 uninstall --yes pysdl2
         cd ..
         rm -rf mupen64plus-ui-python
 
