@@ -4,43 +4,6 @@ current_dir=$(dirname "$(realpath "$0")")
 install_path="$current_dir/../emulators/mupen64plus-ui-python"
 installed_pkg_list="$current_dir/../data/installed_packages.txt"
 
-# * sudo snap 
-#
-# if which apt-get > /dev/null; then
-#     sudo apt-get install -y mupen64plus
-# elif which dnf > /dev/null; then
-#     sudo dnf install -y mupen64plus # OK 
-#     # Install gui
-# elif which pacman > /dev/null; then
-#     sudo pacman -S --noconfirm mupen64plus
-# else
-#     echo "Could not find package manager"
-#     exit 1
-# fi
-#
-#
-#
-
-# function install_m64py {
-#     which pip3 > /dev/null || echo "pip3 not found"
-# }
-
-# Apt
-# sudo apt install libsdl2-dev qttools5-dev-tools pyqt5-dev-tools python3-pyqt5 python3-pyqt5.qtopengl
-#
-#
-#
-
-
-# Pacman 
-#
-# Think this is ok. 
-#
-#
-#
-#
-#
-
 function prompt_for_sudo {
     which zenity &>/dev/null || (echo "zenity not found, please install it" && exit 1)
 
@@ -66,18 +29,6 @@ function __pacman_install {
     done
 
 
-    git clone "https://github.com/mupen64plus/mupen64plus-ui-python.git" "$install_path"
-
-
-    if cd $install_path; then
-        # pip3 install -r requirements.txt 
-        pip3 install pyqt5 pysdl2
-        python setup.py build
-        python setup.py install --user
-    else
-        echo "Could not find mupen64plus-ui-python"
-        exit 1
-    fi
 }
 
 
@@ -94,8 +45,15 @@ function __dnf_install {
 
     done
 
-    git clone "https://github.com/mupen64plus/mupen64plus-ui-python.git" "$install_path"
+}
 
+
+
+function __python_setup {
+
+    [ -d "$install_path" ] && exit 0
+
+    git clone "https://github.com/mupen64plus/mupen64plus-ui-python.git" "$install_path"
 
     if cd $install_path; then
         # pip3 install -r requirements.txt 
@@ -137,21 +95,35 @@ function __pacman_uninstall {
 #
 #
 # pacman_uninstall
+#
 
+function install_m64py {
 
-function install {
     which m64py &>/dev/null && exit 0
+
     prompt_for_sudo
-    # __pacman_install
+
+    if which pacman > /dev/null; then
+        __pacman_install
+    elif which dnf > /dev/null; then
+        __dnf_install
+    else
+        echo "Could not find package manager"
+        exit 1
+    fi
+
+    __python_setup
+
+
+
 }
 
-
-
-function uninstall {
+function uninstall_m64py {
     prompt_for_sudo
     __pacman_uninstall
 }
 
 
 
-# install
+install_m64py
+# uninstall_m64py
