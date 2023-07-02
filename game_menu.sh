@@ -23,6 +23,7 @@ console_dir=( $(ls -1 "$games_dir") )
 # zenity --password | sudo -Sv || fatal "Unable to sudo"
 
 
+# TODO: pyqt5
 function check_requirements {
     progs="wget flatpak setsid xdotool python3"
     for p in $progs; do 
@@ -176,6 +177,8 @@ function game_picker {
 
     elif echo "$choice" | grep -q "nintendo_64"; then 
 
+        which m64py > /dev/null || bash "$root_dir/installer/install_m64py.sh install"
+
         if which m64py; then 
             setsid -f m64py "$result" & 
         else
@@ -219,6 +222,7 @@ function game_picker {
 
 
 function main {
+    bash "$root_dir/installer/install.sh"
     check_requirements
     download_thumbnails
     game_picker

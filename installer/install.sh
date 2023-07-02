@@ -43,8 +43,8 @@ function prompt_for_sudo {
 # Handle general dependencies
 
 function __pacman_base_installer {
-    prog_list=("wget" "git" "flatpak" "python" "pip")
-    pkg_list=("wget" "git" "flatpak" "python" "python-pip")
+    prog_list=("wget" "git" "flatpak" "python" "pip" "xdotool")
+    pkg_list=("wget" "git" "flatpak" "python" "python-pip" "xdotool")
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
         prog=${prog_list[$i]}
@@ -54,11 +54,13 @@ function __pacman_base_installer {
         sudo pacman -S --noconfirm $pkg && echo $pkg >> $installed_pkg_list
 
     done
+
+
 }
 
 function __dnf_base_installer {
-    prog_list=("wget" "git" "flatpak" "python" "pip")
-    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip")
+    prog_list=("wget" "git" "flatpak" "python" "pip" "xdotool")
+    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip" "xdotool")
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
         prog=${prog_list[$i]}
@@ -71,8 +73,8 @@ function __dnf_base_installer {
 }
 
 function __apt_base_installer {
-    prog_list=("wget" "git" "flatpak" "python" "pip")
-    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip")
+    prog_list=("wget" "git" "flatpak" "python" "pip" "xdotool")
+    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip" "xdotool")
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
         prog=${prog_list[$i]}
@@ -96,6 +98,7 @@ function base_installer {
         fatal "No supported package manager found"
     fi
 
+    pip list | grep -q 'PyQt5\s' || pip install --yes PyQt5
 
 }
 

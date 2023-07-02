@@ -57,7 +57,7 @@ function __python_setup {
 
     if cd $install_path; then
         # pip3 install -r requirements.txt 
-        pip3 install pyqt5 pysdl2
+        pip3 install --yes pyqt5 pysdl2
         python setup.py build
         python setup.py install --user
     else
@@ -69,6 +69,7 @@ function __python_setup {
 
 }
 
+# TODO: need pyqt5 in base install
 
 function __pacman_uninstall {
     sudo pacman -Rsu --noconfirm mupen64plus
@@ -78,7 +79,7 @@ function __pacman_uninstall {
     if cd "$install_path"; then
         # pip3 uninstall -r requirements.txt
 
-        pip3 uninstall pyqt5 pysdl2
+        pip3 uninstall --yes pyqt5 pysdl2
         cd ..
         rm -rf mupen64plus-ui-python
 
@@ -124,6 +125,9 @@ function uninstall_m64py {
 }
 
 
+if [ "$1" == "install" ]; then
+    install_m64py
+elif [ "$1" == "uninstall" ]; then
+    uninstall_m64py
+fi
 
-install_m64py
-# uninstall_m64py

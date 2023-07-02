@@ -14,6 +14,7 @@ class StartButton(QPushButton):
         self.setFixedSize(100, 100)  # Set the size of the button
         self.setText("Start")  # Set the text on the button
         self.setFont(QFont("Arial", 12, QFont.Bold))  # Set the font for the text
+        self.focusPolicy = Qt.NoFocus
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -40,6 +41,7 @@ class TriangularButtonUp(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
+        self.focusPolicy = Qt.NoFocus
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -71,6 +73,7 @@ class TriangularButtonRight(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
+        self.focusPolicy = Qt.NoFocus
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -100,6 +103,7 @@ class TriangularButtonDown(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
+        self.focusPolicy = Qt.NoFocus
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -130,6 +134,7 @@ class TriangularButtonLeft(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
+        self.focusPolicy = Qt.NoFocus
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -198,9 +203,11 @@ class ButtonContainer(QWidget):
 
     def __init__(self, window):
         super().__init__(window)
+        # Fcus
 
         self.window = window
         self.__create_buttons()
+
 
 
     def __create_buttons(self):
@@ -209,14 +216,15 @@ class ButtonContainer(QWidget):
         button_right = TriangularButtonRight(self.window)
         button_down = TriangularButtonDown(self.window)
         button_left = TriangularButtonLeft(self.window)
-        self.start_button = StartButton(self.window)
+        start_button = StartButton(self.window)
+        
 
         delta = 125
-        button_left.move(800, 700)
         button_up.move(800+delta, 700-delta)
         button_right.move(800+delta*2, 700)
         button_down.move(800+delta, 700+delta)
-        self.start_button.move(925, 700)
+        button_left.move(800, 700)
+        start_button.move(925, 700)
 
 
     # def update(self): 

@@ -22,6 +22,7 @@ def list_non_empty_directories(directory):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setFocusPolicy(Qt.StrongFocus)
 
         self.setWindowTitle("Retro Fusion")
         self.resize(1600, 900)
