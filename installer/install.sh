@@ -112,7 +112,7 @@ function main {
     check_pkg_manager # Check for supported package manager
     prompt_for_sudo # Prompt for sudo password
     base_installer # Install base dependencies
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 }
 
