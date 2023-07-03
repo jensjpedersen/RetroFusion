@@ -94,6 +94,9 @@ function base_installer {
         __pacman_base_installer
     elif which dnf &>/dev/null; then
         __dnf_base_installer
+    elif
+        which apt &>/dev/null; then
+        __apt_base_installer
     else
         fatal "No supported package manager found"
     fi
@@ -103,12 +106,8 @@ function base_installer {
 }
 
 
-function check_if_installed {
-    [ -f "$installed_pkg_list" ] && exit 0 || touch $installed_pkg_list
-}
 
 function main {
-    check_if_installed
     check_pkg_manager # Check for supported package manager
     prompt_for_sudo # Prompt for sudo password
     base_installer # Install base dependencies

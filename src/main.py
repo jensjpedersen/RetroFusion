@@ -17,6 +17,11 @@ def list_non_empty_directories(directory):
     for root, dirs, files in os.walk(directory):
         if files:
             non_empty_dirs.append(root)
+
+    if not non_empty_dirs: 
+        print("Error: The roms directory is either empty or the titiles are not correctly formated.")
+        sys.exit(1)
+
     return non_empty_dirs
 
 

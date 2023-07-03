@@ -10,6 +10,7 @@ export DISPLAY=:0
 # TODO: handle C-C
 
 root_dir=$(dirname "$(realpath "$0")")
+installed_pkg_list="$root_dir/data/installed_packages.txt"
 
 # import variables: games_dir
 source "$root_dir/game_menu.conf"
@@ -223,8 +224,14 @@ function game_picker {
 }
 
 
-function main {
+function install {
+    [ -f "$installed_pkg_list" ] && exit 0 || touch $installed_pkg_list
     bash "$root_dir/installer/install.sh"
+}
+
+
+function main {
+    install
     check_requirements
     download_thumbnails
     game_picker
