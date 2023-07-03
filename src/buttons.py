@@ -1,12 +1,11 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
-from PyQt5.QtGui import QPainter, QPainterPath, QColor, QIcon, QFont
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QPainter, QPainterPath, QColor, QIcon, QFont, QKeyEvent
+from PyQt5.QtCore import Qt
 
 import sys
-import os 
+import os
 
 # TODO: handle C-C
-
 
 src_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -16,7 +15,7 @@ class StartButton(QPushButton):
         self.setFixedSize(100, 100)  # Set the size of the button
         self.setText("Start")  # Set the text on the button
         self.setFont(QFont("Arial", 12, QFont.Bold))  # Set the font for the text
-        self.focusPolicy = Qt.NoFocus
+        self.setFocusPolicy(Qt.NoFocus)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -39,11 +38,18 @@ class StartButton(QPushButton):
         painter.setPen(Qt.white)  # Set the color of the text
         painter.drawText(self.rect(), Qt.AlignCenter, self.text())
 
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() in (Qt.Key_Up, Qt.Key_Down, Qt.Key_Left, Qt.Key_Right):
+            event.ignore()
+        else:
+            super().keyPressEvent(event)
+
+
 class TriangularButtonUp(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
-        self.focusPolicy = Qt.NoFocus
+        self.setFocusPolicy(Qt.NoFocus)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -60,22 +66,20 @@ class TriangularButtonUp(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            # painter.setBrush(Qt.black)
             painter.setBrush(QColor(76, 25, 40))
 
-
-        # self.setStyleSheet("background-color: rgba(76,25,40,0);")
         painter.setPen(Qt.black)
         painter.drawPath(path)
 
     def sizeHint(self):
         return self.minimumSizeHint()
 
+
 class TriangularButtonRight(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
-        self.focusPolicy = Qt.NoFocus
+        self.setFocusPolicy(Qt.NoFocus)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -92,8 +96,8 @@ class TriangularButtonRight(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            # painter.setBrush(Qt.black)
             painter.setBrush(QColor(76, 25, 40))
+
         painter.setPen(Qt.black)
         painter.drawPath(path)
 
@@ -105,7 +109,7 @@ class TriangularButtonDown(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
-        self.focusPolicy = Qt.NoFocus
+        self.setFocusPolicy(Qt.NoFocus)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -122,9 +126,7 @@ class TriangularButtonDown(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            # painter.setBrush(Qt.black)
             painter.setBrush(QColor(76, 25, 40))
-
 
         painter.setPen(Qt.black)
         painter.drawPath(path)
@@ -132,11 +134,12 @@ class TriangularButtonDown(QPushButton):
     def sizeHint(self):
         return self.minimumSizeHint()
 
+
 class TriangularButtonLeft(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
-        self.focusPolicy = Qt.NoFocus
+        self.setFocusPolicy(Qt.NoFocus)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -154,7 +157,6 @@ class TriangularButtonLeft(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            # painter.setBrush(Qt.black)
             painter.setBrush(QColor(76, 25, 40))
 
         painter.setPen(Qt.black)
@@ -163,45 +165,39 @@ class TriangularButtonLeft(QPushButton):
     def sizeHint(self):
         return self.minimumSizeHint()
 
-class ButtonContainer(QWidget):
 
+class ButtonContainer(QWidget):
     def __init__(self, window):
         super().__init__(window)
-        # Fcus
-
         self.window = window
         self.__create_buttons()
 
-
-
     def __create_buttons(self):
-
         button_up = TriangularButtonUp(self.window)
         button_right = TriangularButtonRight(self.window)
         button_down = TriangularButtonDown(self.window)
         button_left = TriangularButtonLeft(self.window)
         start_button = StartButton(self.window)
-        
 
         delta = 125
-        button_up.move(800+delta, 700-delta)
-        button_right.move(800+delta*2, 700)
-        button_down.move(800+delta, 700+delta)
+        button_up.move(800 + delta, 700 - delta)
+        button_right.move(800 + delta * 2, 700)
+        button_down.move(800 + delta, 700 + delta)
         button_left.move(800, 700)
         start_button.move(925, 700)
 
-
-    # def update(self): 
-    #     # self.start_button.update_icon()
-
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() in (Qt.Key_Up, Qt.Key_Down, Qt.Key_Left, Qt.Key_Right):
+            event.ignore()
+        else:
+            super().keyPressEvent(event)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = QWidget()
 
-    set_button(window)
-    
-    # button_up.clicked.connect(lambda: print("Button clicked!"))
+    container = ButtonContainer(window)
+
     window.show()
     sys.exit(app.exec_())
