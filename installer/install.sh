@@ -81,7 +81,7 @@ function __apt_base_installer {
         pkg=${pkg_list[$i]}
         which $prog &>/dev/null && continue
 
-        sudo apt -y $pkg && echo $pkg >> $installed_pkg_list
+        sudo apt install -y $pkg && echo $pkg >> $installed_pkg_list
 
     done
 
