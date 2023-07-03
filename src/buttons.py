@@ -163,44 +163,6 @@ class TriangularButtonLeft(QPushButton):
     def sizeHint(self):
         return self.minimumSizeHint()
 
-
-
-# class StartButton(QPushButton):
-
-#     def __init__(self, parent=None):
-#         super().__init__(parent)
-#         self.__create_button()
-
-
-#     def update_icon(self):
-#         self.console = self.parent().image_container.current_console
-#         self.setIcon(QIcon(f"{src_path}/../resources/{self.console}_logo.png"))
-#         # self.setIcon(QIcon(f"../resources/gamecube_logo.png"))
-
-
-#     def __create_button(self): 
-
-#         # button = QPushButton("CLICK", self)
-#         # button = QPushButton("", self)
-
-#         # self.setGeometry(200, 200, 200, 200)
-#         self.setGeometry(150, 150, 150, 150)
-
-#         self.clicked.connect(self.clickme)
-
-#         # self.setIcon(QIcon("../resources/play_station_2_logo.png"))
-#         self.update_icon()
-#         # self.setIconSize(QSize(150, 150))
-#         self.setIconSize(QSize(150, 150))
-#         self.setStyleSheet("background-color: rgba(76,25,40,0);")
-#         # self.move(1500, 30)
-#         self.move(10, 10)
-
-#     def clickme(self):
-#         print("pressed")
-
-
-
 class ButtonContainer(QWidget):
 
     def __init__(self, window):
@@ -233,19 +195,6 @@ class ButtonContainer(QWidget):
     #     # self.start_button.update_icon()
 
 
-
-    
-# def set_button(window: QWidget) -> None:
-#     button_up = TriangularButtonUp(window)
-#     button_right = TriangularButtonRight(window)
-#     button_down = TriangularButtonDown(window)
-#     button_left = TriangularButtonLeft(window)
-
-#     delta = 150
-#     button_left.move(800, 700)
-#     button_up.move(800+delta, 700-delta)
-#     button_right.move(800+delta*2, 700)
-#     button_down.move(800+delta, 700+delta)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
