@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 from PyQt5.QtGui import QPainter, QPainterPath, QColor, QIcon, QFont, QKeyEvent
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 
 import sys
 import os
@@ -13,37 +13,26 @@ class StartButton(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFixedSize(100, 100)  # Set the size of the button
-        self.setText("Start")  # Set the text on the button
-        self.setFont(QFont("Arial", 12, QFont.Bold))  # Set the font for the text
+        self.setIcon(QIcon(f"{src_path}/../resources/start_icon.png"))  # Set the icon for the button
+        self.setIconSize(QSize(100, 100))  # Set the size of the icon
         self.setFocusPolicy(Qt.NoFocus)
 
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        path = QPainterPath()
-        path.addRoundedRect(0, 0, self.width(), self.height(), 5, 5)
+        # set background color
+        self.setStyleSheet("background-color: rgb(40, 5, 15);")
 
-        # Set the button's color and border
-        if self.isDown():
-            painter.setBrush(Qt.darkGray)
-        elif self.isChecked():
-            painter.setBrush(Qt.gray)
-        else:
-            painter.setBrush(QColor(76, 25, 40))
 
-        painter.setPen(Qt.black)
-        painter.drawPath(path)
+    def mousePressEvent(self, event):
+        # Handle the click event of the settings button
+        if event.button() == Qt.LeftButton:
+            print("Settings button clicked!")
+            self.setStyleSheet("background-color: rgb(255, 0, 0);")  # Change to your desired color
 
-        # Render the text on the button
-        painter.setPen(Qt.white)  # Set the color of the text
-        painter.drawText(self.rect(), Qt.AlignCenter, self.text())
-
-    def keyPressEvent(self, event: QKeyEvent):
-        if event.key() in (Qt.Key_Up, Qt.Key_Down, Qt.Key_Left, Qt.Key_Right):
-            event.ignore()
-        else:
-            super().keyPressEvent(event)
-
+    def mouseReleaseEvent(self, event):
+        # Handle the mouse release event of the settings button
+        if event.button() == Qt.LeftButton:
+            # Restore the original background color when the button is released
+            self.setStyleSheet("background-color: rgb(40, 5, 15);")
+            print("Settings button clicked!")
 
 class TriangularButtonUp(QPushButton):
     def __init__(self, parent=None):
@@ -62,7 +51,7 @@ class TriangularButtonUp(QPushButton):
 
         # Set the button's color and border
         if self.isDown():
-            painter.setBrush(Qt.darkGray)
+            painter.setBrush(QColor(252, 116, 116))
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
@@ -92,7 +81,7 @@ class TriangularButtonRight(QPushButton):
 
         # Set the button's color and border
         if self.isDown():
-            painter.setBrush(Qt.darkGray)
+            painter.setBrush(QColor(252, 116, 116))
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
@@ -122,7 +111,7 @@ class TriangularButtonDown(QPushButton):
 
         # Set the button's color and border
         if self.isDown():
-            painter.setBrush(Qt.darkGray)
+            painter.setBrush(QColor(252, 116, 116))
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
@@ -153,7 +142,8 @@ class TriangularButtonLeft(QPushButton):
 
         # Set the button's color and border
         if self.isDown():
-            painter.setBrush(Qt.darkGray)
+            painter.setBrush(QColor(252, 116, 116))
+
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
@@ -164,6 +154,32 @@ class TriangularButtonLeft(QPushButton):
 
     def sizeHint(self):
         return self.minimumSizeHint()
+
+class SettingsButton(QPushButton):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setFixedSize(50, 50)  # Set the size of the button
+        self.setIcon(QIcon(f"{src_path}/../resources/settings_icon.png"))  # Set the icon for the button
+        self.setIconSize(QSize(50, 50))  # Set the size of the icon
+        self.setFocusPolicy(Qt.NoFocus)
+        self.setStyleSheet("background-color: rgb(40, 5, 15);")
+
+
+
+    def mousePressEvent(self, event):
+        # Handle the click event of the settings button
+        if event.button() == Qt.LeftButton:
+            print("Settings button clicked!")
+            self.setStyleSheet("background-color: rgb(255, 0, 0);")  # Change to your desired color
+
+    def mouseReleaseEvent(self, event):
+        # Handle the mouse release event of the settings button
+        if event.button() == Qt.LeftButton:
+            # Restore the original background color when the button is released
+            self.setStyleSheet("background-color: rgb(40, 5, 15);")
+            print("Settings button clicked!")
+
+
 
 
 class ButtonContainer(QWidget):
@@ -178,6 +194,7 @@ class ButtonContainer(QWidget):
         button_down = TriangularButtonDown(self.window)
         button_left = TriangularButtonLeft(self.window)
         start_button = StartButton(self.window)
+        settings_button = SettingsButton(self.window)
 
         delta = 125
         button_up.move(800 + delta, 700 - delta)
@@ -185,12 +202,18 @@ class ButtonContainer(QWidget):
         button_down.move(800 + delta, 700 + delta)
         button_left.move(800, 700)
         start_button.move(925, 700)
+        settings_button.move(800 + delta * 2, 700 + delta)
+
+
+
+
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() in (Qt.Key_Up, Qt.Key_Down, Qt.Key_Left, Qt.Key_Right):
             event.ignore()
         else:
             super().keyPressEvent(event)
+
 
 
 if __name__ == '__main__':
