@@ -225,7 +225,7 @@ function game_picker {
 
 
 function install {
-    [ -f "$installed_pkg_list" ] && exit 0 || touch $installed_pkg_list
+    [ -f "$installed_pkg_list" ] && return 0 || touch $installed_pkg_list
     bash "$root_dir/installer/install.sh"
 }
 
