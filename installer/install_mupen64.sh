@@ -51,11 +51,11 @@ function __dnf_install {
 
 function __ubuntu_build_core {
 
-    # TODO: fix only check if core is installed. 
-    if [ -d "$install_core_path" ]; then
-        echo "mupen64plus-core already installed"
-        return 0
-    fi
+    # # TODO: fix only check if core is installed. 
+    # if [ -d "$install_core_path" ]; then
+    #     echo "mupen64plus-core already installed"
+    #     return 0
+    # fi
 
     git clone "https://github.com/mupen64plus/mupen64plus-core.git" "$install_core_path"
 
