@@ -94,7 +94,7 @@ function __apt_install {
     done
 
     # Build mupen64plus-core
-    build_core || (echo "Unable to build mupen64plus-core" && exit 1)
+    __ubuntu_build_core || (echo "Unable to build mupen64plus-core" && exit 1)
 }
 
 
