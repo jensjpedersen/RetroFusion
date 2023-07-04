@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.image_container)
 
         # Set background_image
-        bg_image_path = f'{src_path}/../bg_2.jpg'  # Replace with the actual image path
+        bg_image_path = f'{src_path}/../resources/bg_2.jpg'  # Replace with the actual image path
         # bg_image_path = f'{src_path}/../sep09.jpg'
         self.set_background_image(bg_image_path)
 

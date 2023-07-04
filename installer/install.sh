@@ -11,6 +11,14 @@ function fatal {
 }
 
 
+function install_font {
+    fc-list | grep -q "clacon2.ttf" && return 0
+    # which fc-cache || (echo "fc-cache not found, please install it" && return 1)
+    wget "http://webdraft.hu/fonts/classic-console/fonts/clacon2.ttf"
+    mv clacon2.ttf "${HOME}/.local/share/fonts/"
+    fc-cache -f 
+}
+
 
 function check_pkg_manager {
     # Exit program if no supported package manager is found
@@ -111,6 +119,7 @@ function main {
     check_pkg_manager # Check for supported package manager
     prompt_for_sudo # Prompt for sudo password
     base_installer # Install base dependencies
+    install_font 
     flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 }
