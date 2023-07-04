@@ -124,7 +124,16 @@ function __python_setup {
         pip3 install --no-input pysdl2
         python3 setup.py build
         python3 setup.py install --user
-        # Create shortcut in /usr/bin
+
+        # Create shortcut 
+        if ! which m64py &>/dev/null; then
+            # "${HOME}/.local/bin/m64py"
+            touch "$install_path/m64py"
+            echo '#!/bin/bash' > "$install_path/m64py"
+            echo "python3 $install_path/bin/m64py" >> "$install_path/m64py"
+            ln -s "$install_path/m64py" "${HOME}/.local/bin/m64py"
+        fi 
+
     else
         echo "Could not find mupen64plus-ui-python"
         exit 1
