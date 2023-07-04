@@ -109,8 +109,8 @@ function __python_setup {
     if cd $install_path; then
         # pip3 install -r requirements.txt 
         pip3 install --no-input pysdl2
-        python setup.py build
-        python setup.py install --user
+        python3 setup.py build
+        python3 setup.py install --user
     else
         echo "Could not find mupen64plus-ui-python"
         exit 1

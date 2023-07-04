@@ -68,7 +68,7 @@ function __pacman_base_installer {
 }
 
 function __dnf_base_installer {
-    prog_list=("wget" "git" "flatpak" "python" "pip" "xdotool")
+    prog_list=("wget" "git" "flatpak" "python3" "pip" "xdotool")
     pkg_list=("wget" "git" "flatpak" "python3" "python3-pip" "xdotool")
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
@@ -83,7 +83,7 @@ function __dnf_base_installer {
 
 function __apt_base_installer {
     pkg_list=("wget" "git" "flatpak" "python3" "python3-pip" "xdotool" "python3-pyqt5")
-    prog_list=("wget" "git" "flatpak" "python" "pip" "xdotool" "null")
+    prog_list=("wget" "git" "flatpak" "python3" "pip" "xdotool" "null")
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
         prog=${prog_list[$i]}
