@@ -15,6 +15,7 @@ function install_font {
     fc-list | grep -q "clacon2.ttf" && return 0
     # which fc-cache || (echo "fc-cache not found, please install it" && return 1)
     wget "http://webdraft.hu/fonts/classic-console/fonts/clacon2.ttf"
+    mkdir -p "${HOME}/.local/share/fonts"
     mv clacon2.ttf "${HOME}/.local/share/fonts/"
     fc-cache -f 
 }
@@ -81,8 +82,8 @@ function __dnf_base_installer {
 }
 
 function __apt_base_installer {
-    prog_list=("wget" "git" "flatpak" "python" "pip" "xdotool")
-    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip" "xdotool")
+    pkg_list=("wget" "git" "flatpak" "python3" "python3-pip" "xdotool" "python3-pyqt5")
+    prog_list=("wget" "git" "flatpak" "python" "pip" "xdotool" "null")
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
         prog=${prog_list[$i]}

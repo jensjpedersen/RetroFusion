@@ -180,7 +180,7 @@ function game_picker {
 
     elif echo "$choice" | grep -q "nintendo_64"; then 
 
-        which m64py > /dev/null || bash "$root_dir/installer/install_m64py.sh install"
+        which m64py &>/dev/null || bash "$root_dir/installer/install_mupen64.sh"
 
         if which m64py; then 
             setsid -f m64py "$result" & 

@@ -64,8 +64,9 @@ class Labels(QLabel):
 
     def __create_label(self, x: int, y: int):
         font = QFont()
-        font.setFamily(u"Classic Console")
-        font.setPointSize(45)
+        font.setFamily(u"Classic Console Neue")
+        # font.setFamily(u"Classic Console")
+        font.setPointSize(40)
         font.setBold(False)
         # font.setWeight(75)
         # font.setWeight(0)

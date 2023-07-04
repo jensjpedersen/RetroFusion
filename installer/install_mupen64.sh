@@ -178,9 +178,12 @@ function uninstall_m64py {
 }
 
 
-if [ "$1" == "install" ]; then
-    install_m64py
-elif [ "$1" == "uninstall" ]; then
-    uninstall_m64py
-fi
+# if [ "$1" == "install" ]; then
+#     install_m64py
+# elif [ "$1" == "uninstall" ]; then
+#     uninstall_m64py
+# fi
+#
+#
+install_m64py
 
