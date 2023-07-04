@@ -80,17 +80,18 @@ function __apt_core_install {
 function __apt_install {
     # TODO: add build requirements
     # Install mupen64plus core dependencies
-    pkg_list=("libpng-dev" "libfreetype-dev" "zlib1g" "build-essential" "nasm")     # sdl2-dev
-    prog_list=("libpng-config" "null" "null" "gcc" "nasm")
+    # XXX: removed - use apt install instead
+    # pkg_list=("libpng-dev" "libfreetype-dev" "zlib1g" "build-essential" "nasm")     # sdl2-dev
+    # prog_list=("libpng-config" "null" "null" "gcc" "nasm")
 
-    for ((i=0; i<${#prog_list[@]}; i++)); do
-        prog=${prog_list[$i]}
-        pkg=${pkg_list[$i]}
-        which $prog &>/dev/null && continue
+    # for ((i=0; i<${#prog_list[@]}; i++)); do
+    #     prog=${prog_list[$i]}
+    #     pkg=${pkg_list[$i]}
+    #     which $prog &>/dev/null && continue
 
-        sudo apt install -y $pkg && echo $pkg >> $installed_pkg_list
+    #     sudo apt install -y $pkg && echo $pkg >> $installed_pkg_list
 
-    done
+    # done
 
     # Install m64py dependencies
     pkg_list=("libsdl2-dev" "qttools5-dev-tools" "pyqt5-dev-tools" "python3-pyqt5.qtopengl") # installed in base: "python3-pyqt5" 
@@ -106,8 +107,8 @@ function __apt_install {
     done
 
     # Build mupen64plus-core
-    __ubuntu_build_core || (echo "Unable to build mupen64plus-core" && exit 1)
-    # __apt_core_install
+    # __ubuntu_build_core || (echo "Unable to build mupen64plus-core" && exit 1)
+    __apt_core_install
 }
 
 
@@ -115,7 +116,8 @@ function __apt_install {
 
 function __python_setup {
 
-    which m64py &>/dev/null && return 0
+    # which m64py &>/dev/null && return 0
+    [ -f "${HOME}/.local/bin/m64py" ] && return 0
 
     git clone "https://github.com/mupen64plus/mupen64plus-ui-python.git" "$install_path"
 
@@ -148,7 +150,8 @@ function __python_setup {
 function __pacman_uninstall {
     sudo pacman -Rsu --noconfirm mupen64plus
 
-    rm -rf $(which m64py)
+    # rm -rf $(which m64py)
+    rm -rf "${HOME}/.local/bin/m64py"
 
     if cd "$install_path"; then
         # pip3 uninstall -r requirements.txt
@@ -174,7 +177,8 @@ function __pacman_uninstall {
 
 function install_m64py {
 
-    which m64py &>/dev/null && exit 0
+    # which m64py &>/dev/null && exit 0
+    [ -f "${HOME}/.local/bin/m64py" ] && return 0
 
     prompt_for_sudo
 
