@@ -51,7 +51,7 @@ function __dnf_install {
 
 function __ubuntu_build_core {
 
-    # # TODO: fix only check if core is installed. 
+    # TODO: fix only check if core is installed. 
     # if [ -d "$install_core_path" ]; then
     #     echo "mupen64plus-core already installed"
     #     return 0
@@ -62,6 +62,17 @@ function __ubuntu_build_core {
     if cd "$install_core_path/projects/unix"; then
         make all 
     fi 
+
+}
+
+function __apt_core_install {
+    pkg_list=("mupen64plus-audio-all" "mupen64plus-input-all" "mupen64plus-rsp-all" "mupen64plus-video-all")
+    for ((i=0; i<${#prog_list[@]}; i++)); do
+        pkg=${pkg_list[$i]}
+        sudo apt install -y $pkg && echo $pkg >> $installed_pkg_list
+    done
+
+
 
 }
 
@@ -95,7 +106,8 @@ function __apt_install {
     done
 
     # Build mupen64plus-core
-    __ubuntu_build_core || (echo "Unable to build mupen64plus-core" && exit 1)
+    # __ubuntu_build_core || (echo "Unable to build mupen64plus-core" && exit 1)
+    __apt_core_install
 }
 
 
@@ -103,7 +115,7 @@ function __apt_install {
 
 function __python_setup {
 
-    [ -d "$install_path" ] && exit 0
+    which m64py &>/dev/null && return 0
 
     git clone "https://github.com/mupen64plus/mupen64plus-ui-python.git" "$install_path"
 
@@ -112,6 +124,7 @@ function __python_setup {
         pip3 install --no-input pysdl2
         python3 setup.py build
         python3 setup.py install --user
+        # Create shortcut in /usr/bin
     else
         echo "Could not find mupen64plus-ui-python"
         exit 1
