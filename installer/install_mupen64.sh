@@ -93,8 +93,8 @@ function __apt_install {
     done
 
     # Install m64py dependencies
-    pkg_list=("libsdl2-dev" "qttools5-dev-tools" "pyqt5-dev-tools") # "python3-pyqt5" "python3-pyqt5.qtopengl")
-    prog_list=("sdl2-config" "qtplugininfo" "pyuic5") # "null" "null") # TODO: check if working without first 
+    pkg_list=("libsdl2-dev" "qttools5-dev-tools" "pyqt5-dev-tools" "python3-pyqt5.qtopengl") # installed in base: "python3-pyqt5" 
+    prog_list=("sdl2-config" "qtplugininfo" "pyuic5" "null") 
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
         prog=${prog_list[$i]}
@@ -106,8 +106,8 @@ function __apt_install {
     done
 
     # Build mupen64plus-core
-    # __ubuntu_build_core || (echo "Unable to build mupen64plus-core" && exit 1)
-    __apt_core_install
+    __ubuntu_build_core || (echo "Unable to build mupen64plus-core" && exit 1)
+    # __apt_core_install
 }
 
 
@@ -126,13 +126,13 @@ function __python_setup {
         python3 setup.py install --user
 
         # Create shortcut 
-        if ! which m64py &>/dev/null; then
-            # "${HOME}/.local/bin/m64py"
-            touch "$install_path/m64py"
-            echo '#!/bin/bash' > "$install_path/m64py"
-            echo "python3 $install_path/bin/m64py" >> "$install_path/m64py"
-            ln -s "$install_path/m64py" "${HOME}/.local/bin/m64py"
-        fi 
+        # if ! which m64py &>/dev/null; then
+        #     # "${HOME}/.local/bin/m64py"
+        #     touch "$install_path/m64py"
+        #     echo '#!/bin/bash' > "$install_path/m64py"
+        #     echo "python3 $install_path/bin/m64py" >> "$install_path/m64py"
+        #     ln -s "$install_path/m64py" "${HOME}/.local/bin/m64py"
+        # fi 
 
     else
         echo "Could not find mupen64plus-ui-python"
