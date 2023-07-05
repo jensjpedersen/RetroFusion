@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 from PyQt5.QtGui import QPainter, QPainterPath, QColor, QIcon, QFont, QKeyEvent
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, pyqtSignal
 
 import sys
 import os
@@ -12,6 +12,7 @@ src_path = os.path.dirname(os.path.realpath(__file__))
 class StartButton(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.parent = parent
         self.setFixedSize(100, 100)  # Set the size of the button
         self.setIcon(QIcon(f"{src_path}/../resources/start_icon.png"))  # Set the icon for the button
         self.setIconSize(QSize(100, 100))  # Set the size of the icon
@@ -21,18 +22,22 @@ class StartButton(QPushButton):
         self.setStyleSheet("background-color: rgb(40, 5, 15);")
 
 
+
+
     def mousePressEvent(self, event):
         # Handle the click event of the settings button
         if event.button() == Qt.LeftButton:
             print("Settings button clicked!")
             self.setStyleSheet("background-color: rgb(255, 0, 0);")  # Change to your desired color
+            self.parent.start()
+
 
     def mouseReleaseEvent(self, event):
         # Handle the mouse release event of the settings button
         if event.button() == Qt.LeftButton:
             # Restore the original background color when the button is released
             self.setStyleSheet("background-color: rgb(40, 5, 15);")
-            print("Settings button clicked!")
+            print("Settings button relesed!")
 
 class TriangularButtonUp(QPushButton):
     def __init__(self, parent=None):
@@ -158,6 +163,7 @@ class TriangularButtonLeft(QPushButton):
 class SettingsButton(QPushButton):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.parent = parent
         self.setFixedSize(50, 50)  # Set the size of the button
         self.setIcon(QIcon(f"{src_path}/../resources/settings_icon.png"))  # Set the icon for the button
         self.setIconSize(QSize(50, 50))  # Set the size of the icon
@@ -165,12 +171,12 @@ class SettingsButton(QPushButton):
         self.setStyleSheet("background-color: rgb(40, 5, 15);")
 
 
-
     def mousePressEvent(self, event):
         # Handle the click event of the settings button
         if event.button() == Qt.LeftButton:
             print("Settings button clicked!")
             self.setStyleSheet("background-color: rgb(255, 0, 0);")  # Change to your desired color
+            self.parent.settings()
 
     def mouseReleaseEvent(self, event):
         # Handle the mouse release event of the settings button
@@ -189,20 +195,22 @@ class ButtonContainer(QWidget):
         self.__create_buttons()
 
     def __create_buttons(self):
-        button_up = TriangularButtonUp(self.window)
-        button_right = TriangularButtonRight(self.window)
-        button_down = TriangularButtonDown(self.window)
-        button_left = TriangularButtonLeft(self.window)
-        start_button = StartButton(self.window)
-        settings_button = SettingsButton(self.window)
+        self.button_up = TriangularButtonUp(self.window)
+        self.button_right = TriangularButtonRight(self.window)
+        self.button_down = TriangularButtonDown(self.window)
+        self.button_left = TriangularButtonLeft(self.window)
+        self.start_button = StartButton(self.window)
+        self.settings_button = SettingsButton(self.window)
 
         delta = 125
-        button_up.move(800 + delta, 700 - delta)
-        button_right.move(800 + delta * 2, 700)
-        button_down.move(800 + delta, 700 + delta)
-        button_left.move(800, 700)
-        start_button.move(925, 700)
-        settings_button.move(800 + delta * 2, 700 + delta)
+        self.button_up.move(800 + delta, 700 - delta)
+        self.button_right.move(800 + delta * 2, 700)
+        self.button_down.move(800 + delta, 700 + delta)
+        self.button_left.move(800, 700)
+        self.start_button.move(925, 700)
+        self.settings_button.move(800 + delta * 2, 700 + delta)
+
+
 
 
 

@@ -50,6 +50,7 @@ class MainWindow(QMainWindow):
         # buttons.set_button(self)
 
         self.buttons = buttons.ButtonContainer(self)
+        self.handleButtonClicked()
 
 
         # Start button 
@@ -65,31 +66,56 @@ class MainWindow(QMainWindow):
         palette.setBrush(QPalette.Background, QBrush(background_image))
         self.setPalette(palette)
 
+
+    def handleButtonClicked(self):
+        self.buttons.button_left.clicked.connect(lambda: self.left())
+        self.buttons.button_right.clicked.connect(lambda: self.right())
+        self.buttons.button_up.clicked.connect(lambda: self.up())
+        self.buttons.button_down.clicked.connect(lambda: self.down())
+        # Start and settings buttons in handled in respective classes
+
+
+    def up(self): 
+        if self.image_container.current_index == 0: self.image_container.current_index = len(self.image_container.widgets)
+        self.image_container.change_layout(-1)
+        self.console_menu.update()
+
+    def down(self): 
+        if self.image_container.current_index == len(self.image_container.widgets)-1: self.image_container.current_index = -1 
+        self.image_container.change_layout(+1)
+        self.console_menu.update()
+
+    def left(self):
+        self.image_container.current_widget.scroll_images(-1)
+
+    def right(self):
+        self.image_container.current_widget.scroll_images(1)
+
+    def settings(self):
+        print(f'console:{self.image_container.current_console}')
+        sys.exit()
+
+    def start(self):
+        print(f'choice:{self.image_container.current_widget.images[self.image_container.current_widget.current_index]}')
+        sys.exit()
+
+
     def keyPressEvent(self, event):
 
         if event.key() == Qt.Key_Left or event.key() == Qt.Key_H:
-            self.image_container.current_widget.scroll_images(-1)
+            self.left()
 
         elif event.key() == Qt.Key_Right or event.key() == Qt.Key_L:
-            self.image_container.current_widget.scroll_images(1)
+            self.right()
 
         elif event.key() == Qt.Key_Up or event.key() == Qt.Key_K:
-            if self.image_container.current_index == 0: self.image_container.current_index = len(self.image_container.widgets)
-            self.image_container.change_layout(-1)
-            # self.start_button.update_icon()
-            self.console_menu.update()
-            # self.buttons.update()
+            self.up()
 
         elif event.key() == Qt.Key_Down or event.key() == Qt.Key_J:
-            if self.image_container.current_index == len(self.image_container.widgets)-1: self.image_container.current_index = -1 
-            self.image_container.change_layout(+1)
-            # self.start_button.update_icon()
-            self.console_menu.update()
-            # self.buttons.update()
+            self.down()
 
         elif event.key() == Qt.Key_Return:
-            print(f'choice:{self.image_container.current_widget.images[self.image_container.current_widget.current_index]}')
-            sys.exit()
+            self.start()
 
 
 
