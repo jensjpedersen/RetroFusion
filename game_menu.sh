@@ -173,11 +173,7 @@ function game_picker {
             flatpak install --noninteractive "org.DolphinEmu.dolphin-emu" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        if [ -n "$result" ]; then
-            setsid -f flatpak run "$emulator" -e "$result" &
-        else
-            setsid -f flatpak run "$emulator" &
-        fi
+        setsid -f flatpak run "$emulator" ${result:+-e "$result"} &
 
         sleep 2 
         id=$(xdotool search --name "dolphin-emu" | head -n 1)
@@ -190,7 +186,7 @@ function game_picker {
             flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi 
 
-        setsid -f flatpak run "$emulator" -fullscreen "$result" & 
+        setsid -f flatpak run "$emulator" -fullscreen ${result:+"$result"} & 
 
     elif echo "$choice" | grep -q "nintendo_64"; then 
 
@@ -199,7 +195,7 @@ function game_picker {
 
         # if which m64py; then 
         if [ -f "${HOME}/.local/bin/m64py" ]; then 
-            setsid -f "${HOME}/.local/bin/m64py" "$result" & 
+            setsid -f "${HOME}/.local/bin/m64py" ${result:+"$result"} &
         else
             notify-send "Not installed: m64py"
         fi
@@ -212,7 +208,7 @@ function game_picker {
             flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        setsid -f flatpak run "$emulator" "$result" & 
+        setsid -f flatpak run "$emulator" ${result:+"$result"} &
 
     elif echo "$choice" | grep -q "game_boy_advance"; then
 
@@ -222,7 +218,7 @@ function game_picker {
             flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        setsid -f flatpak run io.mgba.mGBA -f "$result" &
+        setsid -f flatpak run io.mgba.mGBA -f ${result:+"$result"} &
 
     elif echo "$choice" | grep -q "nintendo_switch"; then
 
@@ -232,8 +228,7 @@ function game_picker {
             flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        setsid -f flatpak run "$emulator" "$result" &
-
+        setsid -f flatpak run "$emulator" ${result:+"$result"} &
 
     fi
 
