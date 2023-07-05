@@ -143,19 +143,28 @@ function game_picker {
 
     # run python gui
     choice=$(python3 "$root_dir/src/main.py")
-    choice=$(echo "$choice" | grep -e "choice:" | sed -e 's/\choice://')
+
+    if echo "$choice" | grep -q "choice:"; then
+
+        choice=$(echo "$choice" | grep -e "choice:" | sed -e 's/\choice://')
+
+        [[ -z "$choice" ]] && exit 0
+
+        file_search=$(echo "$choice" | sed -e 's/\.png//')
+        file_search=$(basename "$file_search")
+        console_dir=$(basename "$(dirname "$choice")")
+
+        result=$(find "$games_dir$console_dir" -name "*$file_search*")
+
+        [[ -z "$result" ]] && notify-send "Can't find file: $file_search" && exit 1
+
+    elif echo "$choice" | grep -q "console:"; then
+        result=""
+    fi
 
 
 
-    [[ -z "$choice" ]] && exit 0
 
-    file_search=$(echo "$choice" | sed -e 's/\.png//')
-    file_search=$(basename "$file_search")
-    console_dir=$(basename "$(dirname "$choice")")
-
-    result=$(find "$games_dir$console_dir" -name "*$file_search*")
-
-    [[ -z "$result" ]] && notify-send "Can't find file: $file_search" && exit 1
 
     if echo "$choice" | grep -q "gamecube"; then
         emulator='org.DolphinEmu.dolphin-emu'
@@ -164,7 +173,12 @@ function game_picker {
             flatpak install --noninteractive "org.DolphinEmu.dolphin-emu" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        setsid -f flatpak run "$emulator" -e "$result" &
+        if [ -n "$result" ]; then
+            setsid -f flatpak run "$emulator" -e "$result" &
+        else
+            setsid -f flatpak run "$emulator" &
+        fi
+
         sleep 2 
         id=$(xdotool search --name "dolphin-emu" | head -n 1)
         xdotool key --window $id "$fullscreen_key"

@@ -67,6 +67,7 @@ class MainWindow(QMainWindow):
         self.setPalette(palette)
 
 
+    # TODO: refactor ButtonEvent
     def handleButtonClicked(self):
         self.buttons.button_left.clicked.connect(lambda: self.left())
         self.buttons.button_right.clicked.connect(lambda: self.right())
