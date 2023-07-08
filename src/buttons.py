@@ -17,18 +17,14 @@ class StartButton(QPushButton):
         self.setIcon(QIcon(f"{src_path}/../resources/start_icon.png"))  # Set the icon for the button
         self.setIconSize(QSize(100, 100))  # Set the size of the icon
         self.setFocusPolicy(Qt.NoFocus)
-
-        # set background color
-        self.setStyleSheet("background-color: rgb(40, 5, 15);")
-
-
+        self.setStyleSheet("background-color: rgb(76, 25, 40); border: 1px solid rgb(0, 0, 0);")
 
 
     def mousePressEvent(self, event):
         # Handle the click event of the settings button
         if event.button() == Qt.LeftButton:
             print("Settings button clicked!")
-            self.setStyleSheet("background-color: rgb(255, 0, 0);")  # Change to your desired color
+            self.setStyleSheet("background-color: rgb(255, 0, 0); border: 1px solid rgb(0, 0, 0);")  # Change to your desired color
             self.parent.start()
 
 
@@ -36,7 +32,7 @@ class StartButton(QPushButton):
         # Handle the mouse release event of the settings button
         if event.button() == Qt.LeftButton:
             # Restore the original background color when the button is released
-            self.setStyleSheet("background-color: rgb(40, 5, 15);")
+            self.setStyleSheet("background-color: rgb(76, 25, 40); border: 1px solid rgb(0, 0, 0);")
             print("Settings button relesed!")
 
 class TriangularButtonUp(QPushButton):
@@ -166,23 +162,23 @@ class SettingsButton(QPushButton):
         self.parent = parent
         self.setFixedSize(50, 50)  # Set the size of the button
         self.setIcon(QIcon(f"{src_path}/../resources/settings_icon.png"))  # Set the icon for the button
-        self.setIconSize(QSize(50, 50))  # Set the size of the icon
+        self.setIconSize(QSize(45, 45))  # Set the size of the icon
         self.setFocusPolicy(Qt.NoFocus)
-        self.setStyleSheet("background-color: rgb(40, 5, 15);")
+        self.setStyleSheet("background-color: rgb(76, 25, 40); border: 1px solid rgb(0, 0, 0);")
 
 
     def mousePressEvent(self, event):
         # Handle the click event of the settings button
         if event.button() == Qt.LeftButton:
             print("Settings button clicked!")
-            self.setStyleSheet("background-color: rgb(255, 0, 0);")  # Change to your desired color
+            self.setStyleSheet("background-color: rgb(255, 0, 0); border: 1px solid rgb(0, 0, 0);")
             self.parent.settings()
 
     def mouseReleaseEvent(self, event):
         # Handle the mouse release event of the settings button
         if event.button() == Qt.LeftButton:
             # Restore the original background color when the button is released
-            self.setStyleSheet("background-color: rgb(40, 5, 15);")
+            self.setStyleSheet("background-color: rgb(40, 5, 15); border: 1px solid rgb(0, 0, 0);")
             print("Settings button clicked!")
 
 
