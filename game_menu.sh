@@ -97,6 +97,18 @@ function download_thumbnails {
                 game_name=$(echo "$file_name" | sed -e 's/\.gba//' -e 's/\s*\# GBA\.GBA//')
                 base_url="https://raw.githubusercontent.com/libretro-thumbnails/Nintendo_-_Game_Boy_Advance/e0200a10a81e74a565f335b5ef3d9cb7e8e89672/Named_Boxarts/"
 
+            elif [ $d = 'xbox' ]; then 
+                game_name=$(echo "$file_name" | sed -e 's/\.iso//')
+                # base_url="https://raw.githubusercontent.com/libretro-thumbnails/Microsoft_-_Xbox/blob/cbc70b710a35c45c9492d0a438deb1368f27d230/Named_Boxarts/"
+                base_url="https://raw.githubusercontent.com/libretro-thumbnails/Microsoft_-_Xbox/cbc70b710a35c45c9492d0a438deb1368f27d230/Named_Boxarts/"
+
+            elif [ $d = 'play_station_3' ]; then 
+                continue
+                # TODO need to curl - libretro-thumbnails no complete
+                # game_name=$(echo "$file_name" | sed -e 's/\.iso//')
+                # base_url="https://raw.githubusercontent.com/libretro-thumbnails/Sony_-_PlayStation_3/blob/d2643d98a543a19284889bb5d408e1b83a9353d0/Named_Boxarts/"
+
+
             else
                 break 
             fi
@@ -155,13 +167,18 @@ function game_picker {
     # run python gui
     choice=$(python3 "$root_dir/src/main.py")
 
+
     if echo "$choice" | grep -q "choice:"; then
+        # If play button in gui is pressed
 
         choice=$(echo "$choice" | grep -e "choice:" | sed -e 's/\choice://')
 
+
         [[ -z "$choice" ]] && exit 0
 
-        file_search=$(echo "$choice" | sed -e 's/\.png//')
+        # file_search=$(echo "$choice" | sed -e 's/\.png//' -e 's/\./.jpg//')
+        file_search=$(echo "$choice" | sed -e 's/\.png//' -e 's/\.jpg//')
+
         file_search=$(basename "$file_search")
         console_dir=$(basename "$(dirname "$choice")")
 
@@ -170,12 +187,9 @@ function game_picker {
         [[ -z "$result" ]] && notify-send "Can't find file: $file_search" && exit 1
 
     elif echo "$choice" | grep -q "console:"; then
+        # If settings button in gui is pressed
         result=""
     fi
-
-
-
-
 
     if echo "$choice" | grep -q "gamecube"; then
         emulator='org.DolphinEmu.dolphin-emu'
@@ -241,7 +255,34 @@ function game_picker {
 
         setsid -f flatpak run "$emulator" ${result:+"$result"} &
 
+    elif echo "$choice" | grep -q "xbox"; then
+        emulator='app.xemu.xemu'
+
+        if ! which "$emulator"; then 
+            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
+        fi
+
+        # TODO: fullscreen option 
+
+        echo "result: -----"
+        echo $result
+        setsid -f flatpak run "$emulator" ${result:+-cdrom "$result"} &
+
+
+    elif echo "$play_station_3" | grep -q "play_station_3"; then
+        continue
+        # emulator='net.rpcs3.RPCS3'
+
+        # # TODO: reafactor
+        # if ! which "$emulator"; then 
+        #     flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
+        # fi
+
+        # # TODO: fullscreen option
+        # setsid -f flatpak run "$emulator" ${result:+"$result"} &
+
     fi
+
 
 }
 
