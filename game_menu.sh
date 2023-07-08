@@ -50,10 +50,21 @@ function download_thumbnails {
         mkdir "$root_dir/thumbnails"
     fi
 
-
     for d in "${console_dir[@]}"; do 
 
         for f in "$games_dir""$d"/*; do 
+
+            # continue if donwload in progress
+            [ "$f" == "*.download" ] && continue
+
+            # TODO: only run on dir change. 
+            # Zip handler
+            if file "$f" | grep -q "archive data"; then
+                7z x "$f" -o"$games_dir""$d" && rm "$f" || (echo "Failed to extract: $f" && continue)
+                local search=$(basename "${f%.*}") 
+                f=$(find "$games_dir""$d" -name "*$search*")
+                exit 0
+            fi
 
             file_name="${f##*/}"
 
