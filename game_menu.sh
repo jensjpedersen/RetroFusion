@@ -113,7 +113,7 @@ function download_thumbnails {
                 break 
             fi
 
-            search_game=$(echo "$game_name" | sed -e 's/&/_/' -e 's/(U)//')
+            search_game=$(echo "$game_name" | sed -e 's/&/./' -e 's/(U)//')
             data_file="$root_dir/data/$d/Named_Boxarts.txt" # File with *.png names
 
             match=$(grep -e "$search_game" "$data_file") 
@@ -129,7 +129,7 @@ function download_thumbnails {
                 url="$base_url$img_url"
 
             else
-                echo "Can't find: $game_name"
+                echo "Can't find: $search_game"
                 continue 
             fi
 
@@ -262,11 +262,11 @@ function game_picker {
             flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
-        # TODO: fullscreen option 
+        # Install iso builder and create xbox cd-rom
+        bash $root_dir/installer/install_xbox.sh "$result"
 
-        echo "result: -----"
-        echo $result
-        setsid -f flatpak run "$emulator" ${result:+-cdrom "$result"} &
+        # TODO: fullscreen option 
+        setsid -f flatpak run "$emulator" ${result:+-full-screen -dvd_path "$result"} &
 
 
     elif echo "$play_station_3" | grep -q "play_station_3"; then
