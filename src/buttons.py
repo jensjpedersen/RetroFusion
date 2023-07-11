@@ -17,7 +17,7 @@ class StartButton(QPushButton):
         self.setIcon(QIcon(f"{src_path}/../resources/start_icon.png"))  # Set the icon for the button
         self.setIconSize(QSize(100, 100))  # Set the size of the icon
         self.setFocusPolicy(Qt.NoFocus)
-        self.setStyleSheet("background-color: rgb(76, 25, 40); border: 1px solid rgb(0, 0, 0);")
+        self.setStyleSheet("background-color: rgb(107, 21, 82); border: 1px solid rgb(0, 0, 0);")
 
 
     def mousePressEvent(self, event):
@@ -32,7 +32,7 @@ class StartButton(QPushButton):
         # Handle the mouse release event of the settings button
         if event.button() == Qt.LeftButton:
             # Restore the original background color when the button is released
-            self.setStyleSheet("background-color: rgb(76, 25, 40); border: 1px solid rgb(0, 0, 0);")
+            self.setStyleSheet("background-color: rgb(107, 21, 82); border: 1px solid rgb(0, 0, 0);")
             print("Settings button relesed!")
 
 class TriangularButtonUp(QPushButton):
@@ -56,7 +56,7 @@ class TriangularButtonUp(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(QColor(76, 25, 40))
+            painter.setBrush(QColor(107, 21, 82))
 
         painter.setPen(Qt.black)
         painter.drawPath(path)
@@ -86,7 +86,7 @@ class TriangularButtonRight(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(QColor(76, 25, 40))
+            painter.setBrush(QColor(107, 21, 82))
 
         painter.setPen(Qt.black)
         painter.drawPath(path)
@@ -116,7 +116,7 @@ class TriangularButtonDown(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(QColor(76, 25, 40))
+            painter.setBrush(QColor(107, 21, 82))
 
         painter.setPen(Qt.black)
         painter.drawPath(path)
@@ -148,7 +148,7 @@ class TriangularButtonLeft(QPushButton):
         elif self.isChecked():
             painter.setBrush(Qt.gray)
         else:
-            painter.setBrush(QColor(76, 25, 40))
+            painter.setBrush(QColor(107, 21, 82))
 
         painter.setPen(Qt.black)
         painter.drawPath(path)
@@ -164,7 +164,7 @@ class SettingsButton(QPushButton):
         self.setIcon(QIcon(f"{src_path}/../resources/settings_icon.png"))  # Set the icon for the button
         self.setIconSize(QSize(45, 45))  # Set the size of the icon
         self.setFocusPolicy(Qt.NoFocus)
-        self.setStyleSheet("background-color: rgb(76, 25, 40); border: 1px solid rgb(0, 0, 0);")
+        self.setStyleSheet("background-color: rgb(107, 21, 82); border: 1px solid rgb(0, 0, 0);")
 
 
     def mousePressEvent(self, event):
