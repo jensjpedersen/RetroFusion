@@ -195,7 +195,7 @@ function game_picker {
         emulator='org.DolphinEmu.dolphin-emu'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "org.DolphinEmu.dolphin-emu" || (notify-send "Could not install: $emulator" && exit 1)
+            flatpak install --user --noninteractive "org.DolphinEmu.dolphin-emu" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
         setsid -f flatpak run "$emulator" ${result:+-e "$result"} &
@@ -208,7 +208,7 @@ function game_picker {
         emulator='net.pcsx2.PCSX2'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
+            flatpak install --user --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi 
 
         setsid -f flatpak run "$emulator" -fullscreen ${result:+"$result"} & 
@@ -230,7 +230,7 @@ function game_picker {
         emulator='org.citra_emu.citra'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
+            flatpak install --user --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
         setsid -f flatpak run "$emulator" ${result:+"$result"} &
@@ -240,7 +240,7 @@ function game_picker {
         emulator='io.mgba.mGBA'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
+            flatpak install --user --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
         setsid -f flatpak run io.mgba.mGBA -f ${result:+"$result"} &
@@ -250,7 +250,7 @@ function game_picker {
         emulator='org.yuzu_emu.yuzu'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
+            flatpak install --user --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
         setsid -f flatpak run "$emulator" ${result:+"$result"} &
@@ -259,7 +259,7 @@ function game_picker {
         emulator='app.xemu.xemu'
 
         if ! which "$emulator"; then 
-            flatpak install --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
+            flatpak install --user --noninteractive "$emulator" || (notify-send "Could not install: $emulator" && exit 1)
         fi
 
         # Install iso builder and create xbox cd-rom
