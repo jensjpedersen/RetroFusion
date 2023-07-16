@@ -16,9 +16,13 @@ if [ ! -f "$tool_path/extract-xiso/build/extract-xiso" ]; then
     cd "$tool_path/extract-xiso"
     mkdir build
     cd build || (echo "Failed to cd to build" && exit 1)
-    pip install --no-input cmake
+
+    [ ! -f "$current_dir/../venv/bin/activate" ] && (echo "No virtualenv found" && return 1)
+    source "$current_dir/../venv/bin/activate"
+    pip list | grep 'cmake\s' &>/dev/null || pip install --no-input cmake
     cmake ..
     make
+    deactivate
 fi
 
 
