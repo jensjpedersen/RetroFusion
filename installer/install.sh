@@ -107,7 +107,6 @@ function pip_installer {
 }
 
 function base_installer {
-    echo "base_installer"
     if which pacman &>/dev/null; then
         __pacman_base_installer
     elif which dnf &>/dev/null; then
@@ -115,7 +114,6 @@ function base_installer {
     elif
         which apt &>/dev/null; then
         __apt_base_installer
-        echo "apt base installer"
     else
         fatal "No supported package manager found"
     fi
