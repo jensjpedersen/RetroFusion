@@ -122,9 +122,14 @@ function __python_setup {
 
     if cd $install_path; then
         # pip3 install -r requirements.txt 
-        pip3 install --no-input pysdl2
+
+        source "${current_dir}/../venv/bin/activate"
+
+        pip3 list | grep 'PySDL2\s' &>/dev/null || pip3 install --no-input PySDL2
         python3 setup.py build
         python3 setup.py install --user
+
+        deactivate
 
         # Create shortcut 
         # if ! which m64py &>/dev/null; then
