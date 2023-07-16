@@ -165,7 +165,7 @@ function game_picker {
     # choice=$(echo "$choice" | head -n 1) # full path to .png
 
     # run python gui
-    choice=$(python3 "$root_dir/src/main.py")
+    choice=$("$root_dir/venv/bin/python3" "$root_dir/src/main.py")
 
 
     if echo "$choice" | grep -q "choice:"; then

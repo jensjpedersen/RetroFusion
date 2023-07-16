@@ -62,9 +62,12 @@ class MainWindow(QMainWindow):
 
     def set_background_image(self, image_path):
         background_image = QImage(image_path)
+
+        # background_image = background_image.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio)
         palette = QPalette()
         palette.setBrush(QPalette.Background, QBrush(background_image))
         self.setPalette(palette)
+        # scale image
 
 
     # TODO: refactor ButtonEvent
