@@ -82,16 +82,13 @@ function __dnf_base_installer {
 }
 
 function __apt_base_installer {
+
     pkg_list=("wget" "git" "flatpak" "python3" "python3-pip" "xdotool" "python3-pyqt5")
-    prog_list=("wget" "git" "flatpak" "python3" "pip" "xdotool" "null")
 
     for ((i=0; i<${#prog_list[@]}; i++)); do
-        prog=${prog_list[$i]}
         pkg=${pkg_list[$i]}
-        which $prog &>/dev/null && continue
-
+        dpkg -s $pkg &>/dev/null && continue
         sudo apt install -y $pkg && echo $pkg >> $installed_pkg_list
-
     done
 
 
