@@ -67,8 +67,9 @@ function __ubuntu_build_core {
 
 function __apt_core_install {
     pkg_list=("mupen64plus-audio-all" "mupen64plus-input-all" "mupen64plus-rsp-all" "mupen64plus-video-all")
-    for ((i=0; i<${#prog_list[@]}; i++)); do
+    for ((i=0; i<${#pkg_list[@]}; i++)); do
         pkg=${pkg_list[$i]}
+        dpkg -s "$pkg" &>/dev/null && continue
         sudo apt install -y $pkg && echo $pkg >> $installed_pkg_list
     done
 
@@ -95,12 +96,10 @@ function __apt_install {
 
     # Install m64py dependencies
     pkg_list=("libsdl2-dev" "qttools5-dev-tools" "pyqt5-dev-tools" "python3-pyqt5.qtopengl") # installed in base: "python3-pyqt5" 
-    prog_list=("sdl2-config" "qtplugininfo" "pyuic5" "null") 
 
-    for ((i=0; i<${#prog_list[@]}; i++)); do
-        prog=${prog_list[$i]}
+    for ((i=0; i<${#pkg_list[@]}; i++)); do
         pkg=${pkg_list[$i]}
-        which $prog &>/dev/null && continue
+        dpkg -s "$pkg" &>/dev/null && continue
 
         sudo apt install -y $pkg && echo $pkg >> $installed_pkg_list
 
