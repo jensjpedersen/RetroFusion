@@ -6,6 +6,10 @@ games.
 
 
 
+https://github.com/jensjpedersen/RetroFusion/assets/62065926/7da33b7b-7958-431f-a620-d59f86584854
+
+
+
 ## Inspiration Retro Fusion draws its inspiration from RetroArch, a well-known
 multi-platform emulator frontend. While building upon this foundation, I
 discovered that native emulators provided a superior gaming experience compared
