@@ -4,11 +4,7 @@ favorite retro console games in one convenient launcher. It offers easy setup
 and installation, making it a breeze to organize and play your beloved classic
 games.
 
-
-
-https://github.com/jensjpedersen/RetroFusion/assets/62065926/7da33b7b-7958-431f-a620-d59f86584854
-
-
+![showcase](https://github.com/jensjpedersen/RetroFusion/assets/62065926/2547bba3-ad35-469b-aed3-96226f705c30)
 
 ## Inspiration Retro Fusion draws its inspiration from RetroArch, a well-known
 multi-platform emulator frontend. While building upon this foundation, I
